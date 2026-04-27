@@ -1,3 +1,7 @@
 name = "jhedai-blog"
+main = "dist/server/entry.mjs"
 compatibility_date = "2025-02-23"
-pages_build_output_dir = "dist"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "dist/client"

@@ -14,13 +14,19 @@ const [{ data: posts, total, totalPages }, categories] = await Promise.all([
   getCategories(),
 ]);
 
-const featuredPost = page === 1 && !category ? posts.find((p) => p.featured) || posts[0] : null;
+const featuredPost = page === 1 && !category ? posts.find((p) => p.featured) || null : null;
 const gridPosts = featuredPost ? posts.filter((p) => p.slug !== featuredPost.slug) : posts;
 
 const buildUrl = (p: number) => {
   const params = new URLSearchParams();
   if (p > 1) params.set("page", String(p));
   if (category) params.set("category", category);
+  return `/blog${params.toString() ? `?${params}` : ""}`;
+};
+
+const buildCategoryUrl = (cat: string) => {
+  const params = new URLSearchParams();
+  if (cat) params.set("category", cat);
   return `/blog${params.toString() ? `?${params}` : ""}`;
 };
 
@@ -31,102 +37,121 @@ Astro.response.headers.set(
 ---
 
 <BlogLayout
-  title={category ? `Blog — ${category} | JhedAI` : "Blog de Inteligencia Artificial | JhedAI"}
-  description="Artículos sobre inteligencia artificial aplicada a la industria y gobierno en Chile. Tendencias, casos de uso y metodologías."
-  canonical={`https://jhedai.com/blog${category ? `?category=${category}` : ""}`}
+  title={category ? `Blog — ${category} | JhedAI` : "Blog — Insights de IA Industrial | JhedAI"}
+  description="Artículos, análisis y casos de estudio sobre inteligencia artificial aplicada a la industria chilena."
+  canonical={`https://jhedai.com/blog${category ? `?category=${encodeURIComponent(category)}` : ""}`}
 >
-  <section class="container pt-16 pb-24">
-    <!-- Header -->
-    <div class="max-w-2xl mb-14">
-      <h1 class="text-4xl md:text-5xl font-black text-jhedai-primary mb-4">
-        {category ? `Blog: ${category}` : "Blog"}
-      </h1>
-      <p class="text-lg text-jhedai-primary/60">
-        Insights sobre inteligencia artificial aplicada a la industria y gobierno en Chile.
-      </p>
-    </div>
+  <div class="pt-28 pb-24 bg-white">
+    <div class="container">
 
-    <!-- Category filter -->
-    {categories.length > 0 && (
-      <div class="flex flex-wrap gap-3 mb-12">
+      <!-- Breadcrumb -->
+      <nav class="text-[13px] text-jhedai-primary/40 mb-8">
+        <a href="https://jhedai.com" class="hover:text-jhedai-secondary transition-colors">Inicio</a>
+        <span class="mx-2">&gt;</span>
+        <span class="text-jhedai-primary/60">Blog</span>
+      </nav>
+
+      <!-- Header centrado igual al SPA -->
+      <div class="text-center mb-12">
+        <p class="text-[14px] text-jhedai-secondary font-bold tracking-widest mb-4">BLOG</p>
+        <h1 class="text-3xl lg:text-4xl font-bold text-jhedai-primary mb-4">
+          {category ? category : "Insights de IA Industrial"}
+        </h1>
+        <p class="text-jhedai-primary/60 text-[16px] max-w-2xl mx-auto leading-relaxed">
+          Artículos, análisis y casos de estudio sobre inteligencia artificial aplicada a la industria chilena.
+        </p>
+      </div>
+
+      <!-- Category filters centrados -->
+      <div class="flex flex-wrap justify-center gap-3 mb-12">
         <a
           href="/blog"
           class:list={[
-            "px-4 py-2 rounded-full text-sm font-semibold transition-colors",
+            "px-4 py-2 rounded-full text-[14px] font-medium transition-all",
             !category
               ? "bg-jhedai-primary text-white"
-              : "bg-jhedai-primary/10 text-jhedai-primary hover:bg-jhedai-primary hover:text-white",
+              : "bg-jhedai-primary/5 text-jhedai-primary/60 hover:bg-jhedai-primary/10",
           ]}
         >
           Todos
         </a>
         {categories.map((cat) => (
           <a
-            href={`/blog?category=${encodeURIComponent(cat)}`}
+            href={buildCategoryUrl(cat)}
             class:list={[
-              "px-4 py-2 rounded-full text-sm font-semibold transition-colors",
+              "px-4 py-2 rounded-full text-[14px] font-medium transition-all",
               category === cat
                 ? "bg-jhedai-primary text-white"
-                : "bg-jhedai-primary/10 text-jhedai-primary hover:bg-jhedai-primary hover:text-white",
+                : "bg-jhedai-primary/5 text-jhedai-primary/60 hover:bg-jhedai-primary/10",
             ]}
           >
             {cat}
           </a>
         ))}
       </div>
-    )}
 
-    <!-- Featured post (page 1, no filter) -->
-    {featuredPost && (
-      <a
-        href={`/blog/${featuredPost.slug}`}
-        class="group block glass-card overflow-hidden mb-16 md:grid md:grid-cols-2 gap-0"
-      >
-        <div class="aspect-video md:aspect-auto md:min-h-[320px] overflow-hidden">
-          {featuredPost.featuredImage ? (
-            <img
-              src={featuredPost.featuredImage}
-              alt={featuredPost.featuredImageAlt || featuredPost.title}
-              loading="eager"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          ) : (
-            <div class="w-full h-full bg-gradient-to-br from-jhedai-primary/10 to-jhedai-secondary/10 flex items-center justify-center">
-              <span class="text-6xl font-black text-jhedai-primary/10">J</span>
+      <!-- Featured post (solo página 1 sin filtro) -->
+      {featuredPost && (
+        <div class="mb-8">
+          <a
+            href={`/blog/${featuredPost.slug}`}
+            class="group block relative rounded-2xl overflow-hidden"
+          >
+            <div class="grid lg:grid-cols-2 gap-0 glass-card overflow-hidden">
+              <div class="aspect-video lg:aspect-auto lg:min-h-[320px] overflow-hidden">
+                {featuredPost.featuredImage ? (
+                  <img
+                    src={featuredPost.featuredImage}
+                    alt={featuredPost.featuredImageAlt || featuredPost.title}
+                    loading="eager"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                ) : (
+                  <div class="w-full h-full bg-gradient-to-br from-jhedai-primary to-jhedai-secondary flex items-center justify-center">
+                    <span class="text-8xl font-black text-white/10">J</span>
+                  </div>
+                )}
+              </div>
+              <div class="p-8 lg:p-12 flex flex-col justify-center">
+                <div class="flex items-center gap-3 mb-4">
+                  <span class="px-3 py-1 rounded-full text-xs font-bold bg-jhedai-secondary/10 text-jhedai-secondary">
+                    {featuredPost.category}
+                  </span>
+                  <span class="text-[12px] text-jhedai-primary/40">
+                    {new Date(featuredPost.publishedAt).toLocaleDateString("es-CL", { day: "numeric", month: "short", year: "numeric" })}
+                  </span>
+                </div>
+                <h2 class="text-2xl lg:text-3xl font-black text-jhedai-primary mb-4 group-hover:text-jhedai-secondary transition-colors leading-tight">
+                  {featuredPost.title}
+                </h2>
+                <p class="text-jhedai-primary/60 leading-relaxed mb-6 line-clamp-3">
+                  {featuredPost.excerpt}
+                </p>
+                <span class="inline-flex items-center gap-2 text-[14px] font-semibold text-jhedai-secondary">
+                  Leer artículo →
+                </span>
+              </div>
             </div>
-          )}
+          </a>
         </div>
-        <div class="p-8 flex flex-col justify-center">
-          <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-jhedai-secondary/10 text-jhedai-secondary mb-4 w-fit">
-            Destacado
-          </span>
-          <h2 class="text-2xl md:text-3xl font-black text-jhedai-primary mb-3 group-hover:text-jhedai-secondary transition-colors">
-            {featuredPost.title}
-          </h2>
-          <p class="text-jhedai-primary/60 mb-6 leading-relaxed">
-            {featuredPost.excerpt}
-          </p>
-          <span class="text-sm font-semibold text-jhedai-secondary">
-            Leer artículo →
-          </span>
+      )}
+
+      <!-- Grid de cards -->
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {gridPosts.map((post, i) => (
+            <BlogCard client:load post={post} index={i} />
+          ))}
         </div>
-      </a>
-    )}
+      ) : (
+        <div class="text-center py-24 text-jhedai-primary/40">
+          <p class="text-xl">No hay artículos en esta categoría aún.</p>
+        </div>
+      )}
 
-    <!-- Grid -->
-    {posts.length > 0 ? (
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {gridPosts.map((post, i) => (
-          <BlogCard client:visible post={post} index={i} />
-        ))}
-      </div>
-    ) : (
-      <div class="text-center py-24 text-jhedai-primary/40">
-        <p class="text-xl">No hay artículos en esta categoría aún.</p>
-      </div>
-    )}
+      <!-- Pagination -->
+      <Pagination page={page} totalPages={totalPages} buildUrl={buildUrl} />
 
-    <!-- Pagination -->
-    <Pagination page={page} totalPages={totalPages} buildUrl={buildUrl} />
-  </section>
+    </div>
+  </div>
 </BlogLayout>

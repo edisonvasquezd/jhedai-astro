@@ -19,8 +19,24 @@ if (!post) {
   return Astro.redirect("/blog", 302);
 }
 
-// Content comes from our own trusted API — no user-generated HTML
-const cleanContent = post.content || "";
+const date = new Date(post.publishedAt).toLocaleDateString("es-CL", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+
+const computedWordCount = post.content
+  ? post.content.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length
+  : 0;
+const wordCount = post.wordCount || computedWordCount;
+
+const categoryColors: Record<string, string> = {
+  Industria: "bg-jhedai-primary/10 text-jhedai-primary",
+  Regulación: "bg-jhedai-secondary/10 text-jhedai-secondary",
+  Formación: "bg-jhedai-accent/10 text-jhedai-accent",
+  Tendencias: "bg-emerald-500/10 text-emerald-600",
+};
+const catColor = categoryColors[post.category] || "bg-jhedai-primary/10 text-jhedai-primary";
 
 const pageTitle = post.metaTitle || post.title;
 const pageDescription = post.metaDescription || post.excerpt;
@@ -29,48 +45,44 @@ const canonical = post.canonicalUrl || `https://jhedai.com/blog/${slug}`;
 const blogPostingSchema = {
   "@context": "https://schema.org",
   "@type": post.schemaType || "BlogPosting",
+  "@id": `https://jhedai.com/blog/${slug}#article`,
+  url: `https://jhedai.com/blog/${slug}`,
   headline: post.title,
-  description: post.excerpt,
-  image: post.featuredImage,
+  description: post.primaryAnswer || post.metaDescription || post.excerpt,
+  image: post.featuredImage ? { "@type": "ImageObject", url: post.featuredImage, caption: post.featuredImageAlt || post.title } : undefined,
   datePublished: post.publishedAt,
   dateModified: post.updatedAt || post.publishedAt,
-  author: {
-    "@type": post.author.type || "Person",
-    name: post.author.name,
-    url: post.author.url,
-    sameAs: post.author.sameAs,
-    jobTitle: post.author.jobTitle,
-  },
+  wordCount,
+  abstract: post.excerpt,
+  articleSection: post.category,
+  inLanguage: "es-CL",
+  keywords: post.tags.join(", "),
+  author: post.author.type === "Person"
+    ? { "@type": "Person", name: post.author.name, jobTitle: post.author.jobTitle, url: post.author.url, sameAs: post.author.sameAs }
+    : { "@type": "Organization", name: post.author.name, url: post.author.url || "https://jhedai.com", "@id": "https://jhedai.com/#organization", sameAs: post.author.sameAs },
   publisher: {
     "@type": "Organization",
     name: "JhedAI",
     url: "https://jhedai.com",
-    logo: {
-      "@type": "ImageObject",
-      url: "https://jhedai.com/logo-jhedai.png",
-    },
+    "@id": "https://jhedai.com/#organization",
+    logo: { "@type": "ImageObject", url: "https://jhedai.com/logo-jhedai.png" },
   },
-  wordCount: post.wordCount,
-  keywords: post.tags.join(", "),
-  articleSection: post.category,
-  speakable: post.speakableSelectors.length > 0
-    ? { "@type": "SpeakableSpecification", cssSelector: post.speakableSelectors }
-    : undefined,
-  mainEntityOfPage: canonical,
+  mainEntityOfPage: { "@type": "WebPage", "@id": `https://jhedai.com/blog/${slug}` },
+  speakableSpecification: {
+    "@type": "SpeakableSpecification",
+    cssSelector: post.speakableSelectors?.length ? post.speakableSelectors : ["h1", ".article-intro", "h2"],
+  },
 };
 
-const faqSchema =
-  post.faqItems && post.faqItems.length > 0
-    ? {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: post.faqItems.map((f) => ({
-          "@type": "Question",
-          name: f.question,
-          acceptedAnswer: { "@type": "Answer", text: f.answer },
-        })),
-      }
-    : null;
+const faqSchema = post.faqItems.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: post.faqItems.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+} : null;
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -78,7 +90,8 @@ const breadcrumbSchema = {
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
     { "@type": "ListItem", position: 2, name: "Blog", item: "https://jhedai.com/blog" },
-    { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+    { "@type": "ListItem", position: 3, name: post.category, item: `https://jhedai.com/blog?category=${encodeURIComponent(post.category)}` },
+    { "@type": "ListItem", position: 4, name: post.title, item: canonical },
   ],
 };
 ---
@@ -87,17 +100,8 @@ const breadcrumbSchema = {
   title={pageTitle}
   description={pageDescription}
   canonical={canonical}
-  og={{
-    type: "article",
-    image: post.ogImage || post.featuredImage,
-    title: post.ogTitle || pageTitle,
-    description: post.ogDescription || pageDescription,
-  }}
-  twitter={{
-    title: post.twitterTitle,
-    description: post.twitterDescription,
-    image: post.ogImage || post.featuredImage,
-  }}
+  og={{ type: "article", image: post.ogImage || post.featuredImage, title: post.ogTitle || pageTitle, description: post.ogDescription || pageDescription }}
+  twitter={{ title: post.twitterTitle, description: post.twitterDescription, image: post.ogImage || post.featuredImage }}
   publishedAt={post.publishedAt}
   updatedAt={post.updatedAt}
   author={post.author.name}
@@ -105,171 +109,148 @@ const breadcrumbSchema = {
   tags={post.tags}
 >
   <Fragment slot="head">
-    <!-- Primary answer for AEO -->
-    {post.primaryAnswer && (
-      <meta name="primary-answer" content={post.primaryAnswer} />
-    )}
-    {post.focusKeyword && (
-      <meta name="focus-keyword" content={post.focusKeyword} />
-    )}
-
-    <!-- Schema.org -->
+    {post.primaryAnswer && <meta name="primary-answer" content={post.primaryAnswer} />}
+    {post.focusKeyword && <meta name="focus-keyword" content={post.focusKeyword} />}
     <script type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
-    {faqSchema && (
-      <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-    )}
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   </Fragment>
 
-  <!-- Breadcrumb nav -->
-  <div class="container pt-6 pb-0">
-    <nav aria-label="Breadcrumb" class="text-sm text-jhedai-primary/50 flex items-center gap-2">
-      <a href="https://jhedai.com" class="hover:text-jhedai-primary transition-colors">Inicio</a>
-      <span>/</span>
-      <a href="/blog" class="hover:text-jhedai-primary transition-colors">Blog</a>
-      <span>/</span>
-      <span class="text-jhedai-primary/80 line-clamp-1">{post.title}</span>
-    </nav>
-  </div>
+  <div class="pt-28 pb-24 bg-white">
+    <div class="container" style="max-width: 48rem; margin-left: auto; margin-right: auto;">
 
-  <!-- Hero image -->
-  {post.featuredImage && (
-    <div class="container pt-8">
-      <div class="aspect-video max-h-[480px] overflow-hidden rounded-2xl">
-        <img
-          src={post.featuredImage}
-          alt={post.featuredImageAlt || post.title}
-          loading="eager"
-          class="w-full h-full object-cover"
-          width="1200"
-          height="630"
-        />
+      <!-- Breadcrumb -->
+      <nav class="text-[13px] text-jhedai-primary/40 mb-8">
+        <a href="https://jhedai.com" class="hover:text-jhedai-secondary transition-colors">Inicio</a>
+        <span class="mx-2">&gt;</span>
+        <a href="/blog" class="hover:text-jhedai-secondary transition-colors">Blog</a>
+        <span class="mx-2">&gt;</span>
+        <a href={`/blog?category=${encodeURIComponent(post.category)}`} class="hover:text-jhedai-secondary transition-colors">{post.category}</a>
+        <span class="mx-2">&gt;</span>
+        <span class="text-jhedai-primary/60">{post.title.length > 40 ? post.title.slice(0, 40) + "..." : post.title}</span>
+      </nav>
+
+      <!-- Meta info -->
+      <div class="flex items-center gap-3 mb-4 flex-wrap">
+        <span class={`inline-block px-3 py-1 rounded-full text-xs font-bold ${catColor}`}>
+          {post.category}
+        </span>
+        <time datetime={post.publishedAt} class="text-[13px] text-jhedai-primary/40">{date}</time>
+        <span class="inline-flex items-center gap-1 text-[13px] text-jhedai-primary/40">
+          {post.readTime} lectura
+        </span>
       </div>
-    </div>
-  )}
 
-  <!-- Article header -->
-  <div class="container pt-10 pb-0 max-w-4xl">
-    <div class="flex items-center gap-3 mb-6 flex-wrap">
-      <a
-        href={`/blog?category=${encodeURIComponent(post.category)}`}
-        class="px-3 py-1 rounded-full text-xs font-bold bg-jhedai-primary/10 text-jhedai-primary hover:bg-jhedai-primary hover:text-white transition-colors"
-      >
-        {post.category}
-      </a>
-      <time dateTime={post.publishedAt} class="text-sm text-jhedai-primary/50">
-        {new Date(post.publishedAt).toLocaleDateString("es-CL", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })}
-      </time>
-      <span class="text-sm text-jhedai-primary/50">{post.readTime} lectura</span>
-      {post.wordCount > 0 && (
-        <span class="text-sm text-jhedai-primary/50">{post.wordCount.toLocaleString()} palabras</span>
-      )}
-    </div>
+      <!-- Title -->
+      <h1 class="text-3xl lg:text-4xl font-bold text-jhedai-primary leading-tight mb-8">
+        {post.title}
+      </h1>
 
-    <h1 class="text-3xl md:text-5xl font-black text-jhedai-primary mb-6 leading-tight">
-      {post.title}
-    </h1>
-
-    <!-- Primary answer / intro -->
-    {post.primaryAnswer && (
-      <p class="article-intro text-xl text-jhedai-primary/70 leading-relaxed mb-8 font-light border-l-4 border-jhedai-secondary pl-5">
-        {post.primaryAnswer}
-      </p>
-    )}
-
-    <!-- Author -->
-    <div class="flex items-center gap-4 py-6 border-y border-jhedai-primary/10 mb-10">
-      {post.author.avatar ? (
-        <img
-          src={post.author.avatar}
-          alt={post.author.name}
-          class="w-12 h-12 rounded-full object-cover"
-          loading="lazy"
-        />
-      ) : (
-        <div class="w-12 h-12 rounded-full bg-jhedai-primary/10 flex items-center justify-center text-jhedai-primary font-bold text-lg">
-          {post.author.name[0]}
+      <!-- Key takeaways -->
+      {post.keyTakeaways.length > 0 && (
+        <div class="bg-jhedai-secondary/5 border border-jhedai-secondary/15 rounded-xl p-5 mb-8">
+          <h2 class="text-sm font-bold text-jhedai-secondary uppercase tracking-wide mb-3">Puntos clave</h2>
+          <ul class="space-y-2">
+            {post.keyTakeaways.map((point) => (
+              <li class="flex items-start gap-2 text-[15px] text-jhedai-primary/80">
+                <span class="text-jhedai-secondary mt-0.5 shrink-0">&mdash;</span>
+                {point}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
-      <div>
-        <p class="font-semibold text-jhedai-primary text-sm">{post.author.name}</p>
-        {post.author.jobTitle && (
-          <p class="text-jhedai-primary/50 text-xs">{post.author.jobTitle}</p>
-        )}
-      </div>
-    </div>
-  </div>
 
-  <!-- Key takeaways -->
-  {post.keyTakeaways && post.keyTakeaways.length > 0 && (
-    <div class="container max-w-4xl mb-10">
-      <div class="bg-jhedai-secondary/5 border border-jhedai-secondary/20 rounded-2xl p-6">
-        <h2 class="text-sm font-bold text-jhedai-secondary uppercase tracking-wider mb-4">
-          Puntos clave
-        </h2>
-        <ul class="space-y-2">
-          {post.keyTakeaways.map((item) => (
-            <li class="flex items-start gap-3 text-jhedai-primary/80 text-[15px]">
-              <span class="text-jhedai-secondary mt-0.5 shrink-0">✓</span>
-              {item}
-            </li>
+      <!-- Featured image -->
+      {post.featuredImage && (
+        <div class="rounded-2xl overflow-hidden aspect-video mb-10 shadow-lg">
+          <img
+            src={post.featuredImage}
+            alt={post.featuredImageAlt || post.title}
+            loading="eager"
+            class="w-full h-full object-cover"
+            width="768"
+            height="432"
+          />
+        </div>
+      )}
+
+      <!-- Primary answer (AEO speakable) -->
+      {post.primaryAnswer && (
+        <p class="article-intro text-lg text-jhedai-primary/80 leading-relaxed mb-6">
+          {post.primaryAnswer}
+        </p>
+      )}
+
+      <!-- Article content -->
+      <div class="prose" set:html={post.content || ""} />
+
+      <!-- FAQ -->
+      {post.faqItems.length > 0 && (
+        <section class="mt-10 space-y-3">
+          <h2 class="text-xl font-bold text-jhedai-primary">Preguntas frecuentes</h2>
+          {post.faqItems.map((faq) => (
+            <details class="group border border-jhedai-neutral/15 rounded-xl">
+              <summary class="cursor-pointer p-4 font-medium text-jhedai-primary group-open:text-jhedai-secondary transition-colors list-none flex items-center justify-between">
+                {faq.question}
+                <span class="text-jhedai-secondary ml-4 shrink-0 group-open:rotate-180 transition-transform">↓</span>
+              </summary>
+              <div class="px-4 pb-4 text-[15px] text-jhedai-primary/70 leading-relaxed">
+                {faq.answer}
+              </div>
+            </details>
           ))}
-        </ul>
+        </section>
+      )}
+
+      <!-- Tags -->
+      {post.tags.length > 0 && (
+        <div class="flex gap-2 flex-wrap mt-10">
+          {post.tags.map((tag) => (
+            <span class="px-3 py-1 rounded-full text-xs font-medium bg-jhedai-primary/5 text-jhedai-primary/60">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <!-- Divider -->
+      <div class="h-px bg-jhedai-neutral/20 my-12"></div>
+
+      <!-- CTA Block -->
+      <div class="relative rounded-2xl overflow-hidden">
+        <div class="absolute inset-0 bg-jhedai-primary"></div>
+        <div class="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-bl from-jhedai-secondary/20 to-transparent rounded-full blur-[80px]"></div>
+        <div class="absolute inset-0" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 30px 30px;"></div>
+        <div class="relative z-10 p-10 lg:p-14 text-center">
+          <h3 class="text-2xl font-bold text-white mb-3">¿Necesitas implementar IA en tu empresa?</h3>
+          <p class="text-white/70 text-[16px] max-w-lg mx-auto mb-6 leading-relaxed">
+            Agenda una consulta con nuestro equipo y descubre cómo la inteligencia artificial puede transformar tu operación.
+          </p>
+          <a
+            href="https://jhedai.com/contacto"
+            class="inline-flex items-center gap-2 bg-white text-jhedai-primary px-8 py-3.5 rounded-lg font-bold text-[16px] hover:brightness-110 transition-all shadow-xl"
+          >
+            Agendar consulta →
+          </a>
+        </div>
       </div>
-    </div>
-  )}
 
-  <!-- Article content -->
-  <div class="container max-w-4xl">
-    <article class="prose prose-lg max-w-none" set:html={cleanContent} />
-  </div>
-
-  <!-- FAQ -->
-  {post.faqItems && post.faqItems.length > 0 && (
-    <div class="container max-w-4xl mt-16">
-      <h2 class="text-2xl font-black text-jhedai-primary mb-8">Preguntas frecuentes</h2>
-      <div class="space-y-4">
-        {post.faqItems.map((item) => (
-          <details class="group border border-jhedai-primary/10 rounded-xl overflow-hidden">
-            <summary class="flex items-center justify-between p-5 cursor-pointer font-semibold text-jhedai-primary hover:bg-jhedai-primary/5 transition-colors list-none">
-              <span>{item.question}</span>
-              <span class="ml-4 text-jhedai-secondary shrink-0 group-open:rotate-180 transition-transform">↓</span>
-            </summary>
-            <div class="px-5 pb-5 text-jhedai-primary/70 leading-relaxed text-[15px]">
-              {item.answer}
+      <!-- Related articles -->
+      {related.length > 0 && (
+        <>
+          <div class="h-px bg-jhedai-neutral/20 my-12"></div>
+          <div>
+            <h3 class="text-xl font-bold text-jhedai-primary mb-8">También te puede interesar</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {related.slice(0, 3).map((p, i) => (
+                <BlogCard client:load post={p} index={i} />
+              ))}
             </div>
-          </details>
-        ))}
-      </div>
-    </div>
-  )}
+          </div>
+        </>
+      )}
 
-  <!-- Tags -->
-  {post.tags && post.tags.length > 0 && (
-    <div class="container max-w-4xl mt-12">
-      <div class="flex flex-wrap gap-2">
-        {post.tags.map((tag) => (
-          <span class="px-3 py-1 rounded-full text-xs font-medium bg-jhedai-neutral/50 text-jhedai-primary/70">
-            #{tag}
-          </span>
-        ))}
-      </div>
     </div>
-  )}
-
-  <!-- Related posts -->
-  {related.length > 0 && (
-    <section class="container mt-24 pb-16">
-      <h2 class="text-2xl font-black text-jhedai-primary mb-8">Artículos relacionados</h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        {related.slice(0, 3).map((p, i) => (
-          <BlogCard client:visible post={p} index={i} />
-        ))}
-      </div>
-    </section>
-  )}
+  </div>
 </BlogLayout>

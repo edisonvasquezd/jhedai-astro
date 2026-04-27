@@ -30,7 +30,7 @@ const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
     >
       <a
         href={`/blog/${post.slug}`}
-        class="group block glass-card overflow-hidden cursor-pointer"
+        className="group block glass-card overflow-hidden cursor-pointer"
       >
         <div className="aspect-video overflow-hidden">
           {post.featuredImage ? (
@@ -48,7 +48,7 @@ const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
         </div>
 
         <div className="p-6">
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-3 flex-wrap">
             <span
               className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${categoryColors[post.category] || "bg-jhedai-primary/10 text-jhedai-primary"}`}
             >

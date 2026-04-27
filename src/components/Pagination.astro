@@ -1,0 +1,63 @@
+---
+interface Props {
+  page: number;
+  totalPages: number;
+  buildUrl: (page: number) => string;
+}
+
+const { page, totalPages, buildUrl } = Astro.props;
+
+const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+const showEllipsisStart = page > 4;
+const showEllipsisEnd = page < totalPages - 3;
+const visiblePages = pages.filter(
+  (p) => p === 1 || p === totalPages || (p >= page - 2 && p <= page + 2),
+);
+---
+
+{totalPages > 1 && (
+  <nav aria-label="Paginación" class="flex items-center justify-center gap-2 mt-12">
+    {page > 1 && (
+      <a
+        href={buildUrl(page - 1)}
+        class="px-4 py-2 rounded-lg border border-jhedai-primary/20 text-jhedai-primary hover:bg-jhedai-primary hover:text-white transition-colors text-sm font-medium"
+        aria-label="Página anterior"
+      >
+        ← Anterior
+      </a>
+    )}
+
+    {visiblePages.map((p, i) => {
+      const prev = visiblePages[i - 1];
+      return (
+        <>
+          {prev && p - prev > 1 && (
+            <span class="px-2 text-jhedai-primary/40">…</span>
+          )}
+          <a
+            href={buildUrl(p)}
+            class:list={[
+              "w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors",
+              p === page
+                ? "bg-jhedai-primary text-white"
+                : "border border-jhedai-primary/20 text-jhedai-primary hover:bg-jhedai-primary hover:text-white",
+            ]}
+            aria-current={p === page ? "page" : undefined}
+          >
+            {p}
+          </a>
+        </>
+      );
+    })}
+
+    {page < totalPages && (
+      <a
+        href={buildUrl(page + 1)}
+        class="px-4 py-2 rounded-lg border border-jhedai-primary/20 text-jhedai-primary hover:bg-jhedai-primary hover:text-white transition-colors text-sm font-medium"
+        aria-label="Página siguiente"
+      >
+        Siguiente →
+      </a>
+    )}
+  </nav>
+)}

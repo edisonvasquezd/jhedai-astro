@@ -1,0 +1,132 @@
+---
+export const prerender = false;
+
+import BlogLayout from "../../layouts/BlogLayout.astro";
+import BlogCard from "../../components/BlogCard.tsx";
+import Pagination from "../../components/Pagination.astro";
+import { getPosts, getCategories } from "../../lib/api";
+
+const page = Number(Astro.url.searchParams.get("page") || "1");
+const category = Astro.url.searchParams.get("category") || "";
+
+const [{ data: posts, total, totalPages }, categories] = await Promise.all([
+  getPosts(page, 9, category),
+  getCategories(),
+]);
+
+const featuredPost = page === 1 && !category ? posts.find((p) => p.featured) || posts[0] : null;
+const gridPosts = featuredPost ? posts.filter((p) => p.slug !== featuredPost.slug) : posts;
+
+const buildUrl = (p: number) => {
+  const params = new URLSearchParams();
+  if (p > 1) params.set("page", String(p));
+  if (category) params.set("category", category);
+  return `/blog${params.toString() ? `?${params}` : ""}`;
+};
+
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, s-maxage=900, stale-while-revalidate=900",
+);
+---
+
+<BlogLayout
+  title={category ? `Blog — ${category} | JhedAI` : "Blog de Inteligencia Artificial | JhedAI"}
+  description="Artículos sobre inteligencia artificial aplicada a la industria y gobierno en Chile. Tendencias, casos de uso y metodologías."
+  canonical={`https://jhedai.com/blog${category ? `?category=${category}` : ""}`}
+>
+  <section class="container pt-16 pb-24">
+    <!-- Header -->
+    <div class="max-w-2xl mb-14">
+      <h1 class="text-4xl md:text-5xl font-black text-jhedai-primary mb-4">
+        {category ? `Blog: ${category}` : "Blog"}
+      </h1>
+      <p class="text-lg text-jhedai-primary/60">
+        Insights sobre inteligencia artificial aplicada a la industria y gobierno en Chile.
+      </p>
+    </div>
+
+    <!-- Category filter -->
+    {categories.length > 0 && (
+      <div class="flex flex-wrap gap-3 mb-12">
+        <a
+          href="/blog"
+          class:list={[
+            "px-4 py-2 rounded-full text-sm font-semibold transition-colors",
+            !category
+              ? "bg-jhedai-primary text-white"
+              : "bg-jhedai-primary/10 text-jhedai-primary hover:bg-jhedai-primary hover:text-white",
+          ]}
+        >
+          Todos
+        </a>
+        {categories.map((cat) => (
+          <a
+            href={`/blog?category=${encodeURIComponent(cat)}`}
+            class:list={[
+              "px-4 py-2 rounded-full text-sm font-semibold transition-colors",
+              category === cat
+                ? "bg-jhedai-primary text-white"
+                : "bg-jhedai-primary/10 text-jhedai-primary hover:bg-jhedai-primary hover:text-white",
+            ]}
+          >
+            {cat}
+          </a>
+        ))}
+      </div>
+    )}
+
+    <!-- Featured post (page 1, no filter) -->
+    {featuredPost && (
+      <a
+        href={`/blog/${featuredPost.slug}`}
+        class="group block glass-card overflow-hidden mb-16 md:grid md:grid-cols-2 gap-0"
+      >
+        <div class="aspect-video md:aspect-auto md:min-h-[320px] overflow-hidden">
+          {featuredPost.featuredImage ? (
+            <img
+              src={featuredPost.featuredImage}
+              alt={featuredPost.featuredImageAlt || featuredPost.title}
+              loading="eager"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <div class="w-full h-full bg-gradient-to-br from-jhedai-primary/10 to-jhedai-secondary/10 flex items-center justify-center">
+              <span class="text-6xl font-black text-jhedai-primary/10">J</span>
+            </div>
+          )}
+        </div>
+        <div class="p-8 flex flex-col justify-center">
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-jhedai-secondary/10 text-jhedai-secondary mb-4 w-fit">
+            Destacado
+          </span>
+          <h2 class="text-2xl md:text-3xl font-black text-jhedai-primary mb-3 group-hover:text-jhedai-secondary transition-colors">
+            {featuredPost.title}
+          </h2>
+          <p class="text-jhedai-primary/60 mb-6 leading-relaxed">
+            {featuredPost.excerpt}
+          </p>
+          <span class="text-sm font-semibold text-jhedai-secondary">
+            Leer artículo →
+          </span>
+        </div>
+      </a>
+    )}
+
+    <!-- Grid -->
+    {posts.length > 0 ? (
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {gridPosts.map((post, i) => (
+          <BlogCard client:visible post={post} index={i} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-24 text-jhedai-primary/40">
+        <p class="text-xl">No hay artículos en esta categoría aún.</p>
+      </div>
+    )}
+
+    <!-- Pagination -->
+    <Pagination page={page} totalPages={totalPages} buildUrl={buildUrl} />
+  </section>
+</BlogLayout>

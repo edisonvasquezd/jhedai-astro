@@ -1,0 +1,275 @@
+---
+import BlogLayout from "../../layouts/BlogLayout.astro";
+import BlogCard from "../../components/BlogCard.tsx";
+import { getPost, getRelatedPosts, getAllSlugs } from "../../lib/api";
+
+export async function getStaticPaths() {
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params as { slug: string };
+
+const [post, related] = await Promise.all([
+  getPost(slug),
+  getRelatedPosts(slug),
+]);
+
+if (!post) {
+  return Astro.redirect("/blog", 302);
+}
+
+// Content comes from our own trusted API — no user-generated HTML
+const cleanContent = post.content || "";
+
+const pageTitle = post.metaTitle || post.title;
+const pageDescription = post.metaDescription || post.excerpt;
+const canonical = post.canonicalUrl || `https://jhedai.com/blog/${slug}`;
+
+const blogPostingSchema = {
+  "@context": "https://schema.org",
+  "@type": post.schemaType || "BlogPosting",
+  headline: post.title,
+  description: post.excerpt,
+  image: post.featuredImage,
+  datePublished: post.publishedAt,
+  dateModified: post.updatedAt || post.publishedAt,
+  author: {
+    "@type": post.author.type || "Person",
+    name: post.author.name,
+    url: post.author.url,
+    sameAs: post.author.sameAs,
+    jobTitle: post.author.jobTitle,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "JhedAI",
+    url: "https://jhedai.com",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://jhedai.com/logo-jhedai.png",
+    },
+  },
+  wordCount: post.wordCount,
+  keywords: post.tags.join(", "),
+  articleSection: post.category,
+  speakable: post.speakableSelectors.length > 0
+    ? { "@type": "SpeakableSpecification", cssSelector: post.speakableSelectors }
+    : undefined,
+  mainEntityOfPage: canonical,
+};
+
+const faqSchema =
+  post.faqItems && post.faqItems.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqItems.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      }
+    : null;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
+    { "@type": "ListItem", position: 2, name: "Blog", item: "https://jhedai.com/blog" },
+    { "@type": "ListItem", position: 3, name: post.title, item: canonical },
+  ],
+};
+---
+
+<BlogLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  og={{
+    type: "article",
+    image: post.ogImage || post.featuredImage,
+    title: post.ogTitle || pageTitle,
+    description: post.ogDescription || pageDescription,
+  }}
+  twitter={{
+    title: post.twitterTitle,
+    description: post.twitterDescription,
+    image: post.ogImage || post.featuredImage,
+  }}
+  publishedAt={post.publishedAt}
+  updatedAt={post.updatedAt}
+  author={post.author.name}
+  category={post.category}
+  tags={post.tags}
+>
+  <Fragment slot="head">
+    <!-- Primary answer for AEO -->
+    {post.primaryAnswer && (
+      <meta name="primary-answer" content={post.primaryAnswer} />
+    )}
+    {post.focusKeyword && (
+      <meta name="focus-keyword" content={post.focusKeyword} />
+    )}
+
+    <!-- Schema.org -->
+    <script type="application/ld+json" set:html={JSON.stringify(blogPostingSchema)} />
+    {faqSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    )}
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <!-- Breadcrumb nav -->
+  <div class="container pt-6 pb-0">
+    <nav aria-label="Breadcrumb" class="text-sm text-jhedai-primary/50 flex items-center gap-2">
+      <a href="https://jhedai.com" class="hover:text-jhedai-primary transition-colors">Inicio</a>
+      <span>/</span>
+      <a href="/blog" class="hover:text-jhedai-primary transition-colors">Blog</a>
+      <span>/</span>
+      <span class="text-jhedai-primary/80 line-clamp-1">{post.title}</span>
+    </nav>
+  </div>
+
+  <!-- Hero image -->
+  {post.featuredImage && (
+    <div class="container pt-8">
+      <div class="aspect-video max-h-[480px] overflow-hidden rounded-2xl">
+        <img
+          src={post.featuredImage}
+          alt={post.featuredImageAlt || post.title}
+          loading="eager"
+          class="w-full h-full object-cover"
+          width="1200"
+          height="630"
+        />
+      </div>
+    </div>
+  )}
+
+  <!-- Article header -->
+  <div class="container pt-10 pb-0 max-w-4xl">
+    <div class="flex items-center gap-3 mb-6 flex-wrap">
+      <a
+        href={`/blog?category=${encodeURIComponent(post.category)}`}
+        class="px-3 py-1 rounded-full text-xs font-bold bg-jhedai-primary/10 text-jhedai-primary hover:bg-jhedai-primary hover:text-white transition-colors"
+      >
+        {post.category}
+      </a>
+      <time dateTime={post.publishedAt} class="text-sm text-jhedai-primary/50">
+        {new Date(post.publishedAt).toLocaleDateString("es-CL", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })}
+      </time>
+      <span class="text-sm text-jhedai-primary/50">{post.readTime} lectura</span>
+      {post.wordCount > 0 && (
+        <span class="text-sm text-jhedai-primary/50">{post.wordCount.toLocaleString()} palabras</span>
+      )}
+    </div>
+
+    <h1 class="text-3xl md:text-5xl font-black text-jhedai-primary mb-6 leading-tight">
+      {post.title}
+    </h1>
+
+    <!-- Primary answer / intro -->
+    {post.primaryAnswer && (
+      <p class="article-intro text-xl text-jhedai-primary/70 leading-relaxed mb-8 font-light border-l-4 border-jhedai-secondary pl-5">
+        {post.primaryAnswer}
+      </p>
+    )}
+
+    <!-- Author -->
+    <div class="flex items-center gap-4 py-6 border-y border-jhedai-primary/10 mb-10">
+      {post.author.avatar ? (
+        <img
+          src={post.author.avatar}
+          alt={post.author.name}
+          class="w-12 h-12 rounded-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <div class="w-12 h-12 rounded-full bg-jhedai-primary/10 flex items-center justify-center text-jhedai-primary font-bold text-lg">
+          {post.author.name[0]}
+        </div>
+      )}
+      <div>
+        <p class="font-semibold text-jhedai-primary text-sm">{post.author.name}</p>
+        {post.author.jobTitle && (
+          <p class="text-jhedai-primary/50 text-xs">{post.author.jobTitle}</p>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <!-- Key takeaways -->
+  {post.keyTakeaways && post.keyTakeaways.length > 0 && (
+    <div class="container max-w-4xl mb-10">
+      <div class="bg-jhedai-secondary/5 border border-jhedai-secondary/20 rounded-2xl p-6">
+        <h2 class="text-sm font-bold text-jhedai-secondary uppercase tracking-wider mb-4">
+          Puntos clave
+        </h2>
+        <ul class="space-y-2">
+          {post.keyTakeaways.map((item) => (
+            <li class="flex items-start gap-3 text-jhedai-primary/80 text-[15px]">
+              <span class="text-jhedai-secondary mt-0.5 shrink-0">✓</span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )}
+
+  <!-- Article content -->
+  <div class="container max-w-4xl">
+    <article class="prose prose-lg max-w-none" set:html={cleanContent} />
+  </div>
+
+  <!-- FAQ -->
+  {post.faqItems && post.faqItems.length > 0 && (
+    <div class="container max-w-4xl mt-16">
+      <h2 class="text-2xl font-black text-jhedai-primary mb-8">Preguntas frecuentes</h2>
+      <div class="space-y-4">
+        {post.faqItems.map((item) => (
+          <details class="group border border-jhedai-primary/10 rounded-xl overflow-hidden">
+            <summary class="flex items-center justify-between p-5 cursor-pointer font-semibold text-jhedai-primary hover:bg-jhedai-primary/5 transition-colors list-none">
+              <span>{item.question}</span>
+              <span class="ml-4 text-jhedai-secondary shrink-0 group-open:rotate-180 transition-transform">↓</span>
+            </summary>
+            <div class="px-5 pb-5 text-jhedai-primary/70 leading-relaxed text-[15px]">
+              {item.answer}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Tags -->
+  {post.tags && post.tags.length > 0 && (
+    <div class="container max-w-4xl mt-12">
+      <div class="flex flex-wrap gap-2">
+        {post.tags.map((tag) => (
+          <span class="px-3 py-1 rounded-full text-xs font-medium bg-jhedai-neutral/50 text-jhedai-primary/70">
+            #{tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Related posts -->
+  {related.length > 0 && (
+    <section class="container mt-24 pb-16">
+      <h2 class="text-2xl font-black text-jhedai-primary mb-8">Artículos relacionados</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        {related.slice(0, 3).map((p, i) => (
+          <BlogCard client:visible post={p} index={i} />
+        ))}
+      </div>
+    </section>
+  )}
+</BlogLayout>

@@ -1,0 +1,113 @@
+---
+import "../styles/global.css";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  og?: {
+    image?: string;
+    type?: string;
+    title?: string;
+    description?: string;
+  };
+  twitter?: {
+    title?: string;
+    description?: string;
+    image?: string;
+  };
+  publishedAt?: string;
+  updatedAt?: string;
+  author?: string;
+  category?: string;
+  tags?: string[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  og,
+  twitter,
+  publishedAt,
+  updatedAt,
+  author,
+  category,
+  tags = [],
+  noindex = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={og?.type || "website"} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={og?.title || title} />
+    <meta property="og:description" content={og?.description || description} />
+    <meta property="og:site_name" content="JhedAI Blog" />
+    <meta property="og:locale" content="es_CL" />
+    {og?.image && <meta property="og:image" content={og.image} />}
+    {og?.image && <meta property="og:image:width" content="1200" />}
+    {og?.image && <meta property="og:image:height" content="630" />}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={twitter?.title || og?.title || title} />
+    <meta name="twitter:description" content={twitter?.description || og?.description || description} />
+    {(twitter?.image || og?.image) && <meta name="twitter:image" content={twitter?.image || og?.image} />}
+
+    <!-- Article meta -->
+    {publishedAt && <meta property="article:published_time" content={publishedAt} />}
+    {updatedAt && <meta property="article:modified_time" content={updatedAt} />}
+    {author && <meta property="article:author" content={author} />}
+    {category && <meta property="article:section" content={category} />}
+    {tags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+    <!-- GEO/AEO -->
+    <meta name="geo.region" content="CL" />
+    <meta name="geo.country" content="Chile" />
+
+    <!-- Fonts (non-blocking) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap"
+      />
+    </noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen bg-white">
+    <Navbar />
+    <main class="pt-16">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

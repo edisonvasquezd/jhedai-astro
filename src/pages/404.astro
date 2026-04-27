@@ -1,0 +1,19 @@
+---
+import BlogLayout from "../layouts/BlogLayout.astro";
+---
+
+<BlogLayout
+  title="Página no encontrada | JhedAI Blog"
+  description="La página que buscas no existe."
+  canonical="https://jhedai.com/blog"
+  noindex={true}
+>
+  <div class="container min-h-[60vh] flex flex-col items-center justify-center text-center py-24">
+    <p class="text-8xl font-black text-jhedai-primary/10 mb-4">404</p>
+    <h1 class="text-3xl font-black text-jhedai-primary mb-4">Artículo no encontrado</h1>
+    <p class="text-jhedai-primary/60 mb-8 max-w-md">
+      El artículo que buscas no existe o fue eliminado.
+    </p>
+    <a href="/blog" class="boton-principal">← Volver al Blog</a>
+  </div>
+</BlogLayout>

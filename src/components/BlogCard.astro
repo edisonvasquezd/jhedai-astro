@@ -1,5 +1,6 @@
 ---
 import type { BlogPost } from "../lib/api";
+import { getImageUrl } from "../lib/api";
 
 interface Props {
   post: BlogPost;
@@ -34,7 +35,7 @@ const date = new Date(post.publishedAt).toLocaleDateString("es-CL", {
   <div class="aspect-video overflow-hidden">
     {post.featuredImage ? (
       <img
-        src={post.featuredImage}
+        src={getImageUrl(post.featuredImage, "card")}
         alt={post.featuredImageAlt || post.title}
         loading={loading}
         fetchpriority={fetchpriority}

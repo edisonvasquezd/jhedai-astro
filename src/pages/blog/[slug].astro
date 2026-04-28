@@ -74,10 +74,13 @@ const blogPostingSchema = {
     "@id": "https://jhedai.com/#organization",
     logo: { "@type": "ImageObject", url: "https://jhedai.com/logo-jhedai.png" },
   },
-  mainEntityOfPage: { "@type": "WebPage", "@id": `https://jhedai.com/blog/${slug}` },
-  speakableSpecification: {
-    "@type": "SpeakableSpecification",
-    cssSelector: post.speakableSelectors?.length ? post.speakableSelectors : ["h1", ".article-intro", "h2"],
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": `https://jhedai.com/blog/${slug}`,
+    speakableSpecification: {
+      "@type": "SpeakableSpecification",
+      cssSelector: post.speakableSelectors?.length ? post.speakableSelectors : ["h1", ".article-intro", "h2"],
+    },
   },
 };
 

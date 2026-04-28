@@ -22,7 +22,8 @@ export const GET: APIRoute = async () => {
 
   const urls = posts
     .map((post) => {
-      const lastmod = new Date(post.updatedAt).toISOString().split("T")[0];
+      const d = post.updatedAt ? new Date(post.updatedAt) : null;
+      const lastmod = d && !isNaN(d.getTime()) ? d.toISOString().split("T")[0] : new Date().toISOString().split("T")[0];
       return `  <url>
     <loc>https://jhedai.com/blog/${post.slug}</loc>
     <lastmod>${lastmod}</lastmod>

@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import BlogLayout from "../../layouts/BlogLayout.astro";
-import BlogCard from "../../components/BlogCard.tsx";
+import BlogCard from "../../components/BlogCard.astro";
 import Pagination from "../../components/Pagination.astro";
 import { getPosts, getCategories } from "../../lib/api";
 
@@ -41,19 +41,24 @@ Astro.response.headers.set(
   description="Artículos, análisis y casos de estudio sobre inteligencia artificial aplicada a la industria chilena."
   canonical={`https://jhedai.com/blog${category ? `?category=${encodeURIComponent(category)}` : ""}`}
 >
-  <div class="pt-28 pb-24 bg-white">
+  <Fragment slot="head">
+    {featuredPost?.featuredImage && (
+      <link rel="preload" as="image" href={featuredPost.featuredImage} fetchpriority="high" />
+    )}
+  </Fragment>
+  <div class="pt-20 pb-24 bg-white">
     <div class="container">
 
       <!-- Breadcrumb -->
-      <nav class="text-[13px] text-jhedai-primary/40 mb-8">
+      <nav class="text-[13px] text-jhedai-primary/70 mb-6">
         <a href="https://jhedai.com" class="hover:text-jhedai-secondary transition-colors">Inicio</a>
         <span class="mx-2">&gt;</span>
-        <span class="text-jhedai-primary/60">Blog</span>
+        <span class="text-jhedai-primary/80">Blog</span>
       </nav>
 
       <!-- Header centrado igual al SPA -->
       <div class="text-center mb-12">
-        <p class="text-[14px] text-jhedai-secondary font-bold tracking-widest mb-4">BLOG</p>
+        <p class="text-[14px] text-jhedai-primary font-bold tracking-widest mb-4 opacity-60">BLOG</p>
         <h1 class="text-3xl lg:text-4xl font-bold text-jhedai-primary mb-4">
           {category ? category : "Insights de IA Industrial"}
         </h1>
@@ -104,6 +109,9 @@ Astro.response.headers.set(
                     src={featuredPost.featuredImage}
                     alt={featuredPost.featuredImageAlt || featuredPost.title}
                     loading="eager"
+                    fetchpriority="high"
+                    width="640"
+                    height="360"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 ) : (
@@ -140,7 +148,7 @@ Astro.response.headers.set(
       {posts.length > 0 ? (
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {gridPosts.map((post, i) => (
-            <BlogCard client:load post={post} index={i} />
+            <BlogCard post={post} index={i} />
           ))}
         </div>
       ) : (

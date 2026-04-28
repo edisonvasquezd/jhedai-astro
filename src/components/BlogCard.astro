@@ -1,0 +1,75 @@
+---
+import type { BlogPost } from "../lib/api";
+
+interface Props {
+  post: BlogPost;
+  index?: number;
+  loading?: "lazy" | "eager";
+  fetchpriority?: "auto" | "high" | "low";
+}
+
+const { post, index = 0, loading = "lazy", fetchpriority = "auto" } = Astro.props;
+
+const categoryColors: Record<string, string> = {
+  Industria: "bg-jhedai-primary/10 text-jhedai-primary",
+  Regulación: "bg-jhedai-secondary/10 text-jhedai-secondary",
+  Formación: "bg-jhedai-accent/10 text-jhedai-accent",
+  Tendencias: "bg-emerald-500/10 text-emerald-600",
+};
+
+const catColor = categoryColors[post.category] || "bg-jhedai-primary/10 text-jhedai-primary";
+
+const date = new Date(post.publishedAt).toLocaleDateString("es-CL", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
+---
+
+<a
+  href={`/blog/${post.slug}`}
+  class="group block glass-card overflow-hidden cursor-pointer card-animate"
+  style={`animation-delay: ${index * 0.1}s`}
+>
+  <div class="aspect-video overflow-hidden">
+    {post.featuredImage ? (
+      <img
+        src={post.featuredImage}
+        alt={post.featuredImageAlt || post.title}
+        loading={loading}
+        fetchpriority={fetchpriority}
+        width="400"
+        height="225"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      />
+    ) : (
+      <div class="w-full h-full bg-gradient-to-br from-jhedai-primary/10 to-jhedai-secondary/10 flex items-center justify-center">
+        <span class="text-4xl font-black text-jhedai-primary/10">J</span>
+      </div>
+    )}
+  </div>
+
+  <div class="p-6">
+    <div class="flex items-center gap-3 mb-3 flex-wrap">
+      <span class={`inline-block px-3 py-1 rounded-full text-xs font-bold ${catColor}`}>
+        {post.category}
+      </span>
+      <time datetime={post.publishedAt} class="text-[12px] text-jhedai-primary/50">
+        {date}
+      </time>
+      <span class="text-[12px] text-jhedai-primary/50">{post.readTime}</span>
+    </div>
+
+    <h2 class="font-bold text-lg text-jhedai-primary mb-2 group-hover:text-jhedai-secondary transition-colors line-clamp-2">
+      {post.title}
+    </h2>
+
+    <p class="text-[15px] text-jhedai-primary/60 leading-relaxed mb-4 line-clamp-2">
+      {post.excerpt}
+    </p>
+
+    <span class="inline-flex items-center gap-2 text-[14px] font-semibold text-jhedai-primary/50 group-hover:text-jhedai-secondary transition-colors">
+      Leer artículo →
+    </span>
+  </div>
+</a>

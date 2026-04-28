@@ -1,7 +1,7 @@
 ---
 import BlogLayout from "../../layouts/BlogLayout.astro";
-import BlogCard from "../../components/BlogCard.tsx";
-import { getPost, getRelatedPosts, getAllSlugs } from "../../lib/api";
+import BlogCard from "../../components/BlogCard.astro";
+import { getPost, getRelatedPosts, getAllSlugs, getImageUrl } from "../../lib/api";
 
 export async function getStaticPaths() {
   const slugs = await getAllSlugs();
@@ -116,11 +116,11 @@ const breadcrumbSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   </Fragment>
 
-  <div class="pt-28 pb-24 bg-white">
+  <div class="pt-20 pb-24 bg-white">
     <div class="container" style="max-width: 48rem; margin-left: auto; margin-right: auto;">
 
       <!-- Breadcrumb -->
-      <nav class="text-[13px] text-jhedai-primary/40 mb-8">
+      <nav class="text-[13px] text-jhedai-primary/70 mb-6">
         <a href="https://jhedai.com" class="hover:text-jhedai-secondary transition-colors">Inicio</a>
         <span class="mx-2">&gt;</span>
         <a href="/blog" class="hover:text-jhedai-secondary transition-colors">Blog</a>
@@ -165,12 +165,13 @@ const breadcrumbSchema = {
       {post.featuredImage && (
         <div class="rounded-2xl overflow-hidden aspect-video mb-10 shadow-lg">
           <img
-            src={post.featuredImage}
+            src={getImageUrl(post.featuredImage, "featured")}
             alt={post.featuredImageAlt || post.title}
             loading="eager"
-            class="w-full h-full object-cover"
+            fetchpriority="high"
             width="768"
             height="432"
+            class="w-full h-full object-cover"
           />
         </div>
       )}
@@ -244,7 +245,7 @@ const breadcrumbSchema = {
             <h3 class="text-xl font-bold text-jhedai-primary mb-8">También te puede interesar</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.slice(0, 3).map((p, i) => (
-                <BlogCard client:load post={p} index={i} />
+                <BlogCard post={p} index={i} />
               ))}
             </div>
           </div>

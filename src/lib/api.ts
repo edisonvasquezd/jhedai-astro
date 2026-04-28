@@ -175,3 +175,16 @@ export async function getAllSlugs(): Promise<string[]> {
     return [];
   }
 }
+
+// --- Image variant helpers ---
+
+export type ImageVariant = "card" | "featured" | "public";
+
+export function getImageUrl(
+  url: string | undefined,
+  variant: ImageVariant,
+): string | undefined {
+  if (!url) return undefined;
+  // Replace last path segment (current variant) with the requested variant
+  return url.replace(/\/[^/]+$/, `/${variant}`);
+}

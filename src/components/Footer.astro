@@ -7,7 +7,10 @@ const year = new Date().getFullYear();
     <div class="grid md:grid-cols-4 gap-12 mb-16">
       <div class="-mt-4">
         <a href="https://jhedai.com" class="flex items-center gap-2.5 inline-block">
-          <img src="/logo-jhedai.png" alt="JhedAI" class="h-32 w-auto brightness-0 invert" />
+          <picture>
+            <source srcset="/logo-jhedai.webp" type="image/webp" />
+            <img src="/logo-jhedai.png" alt="JhedAI" class="h-32 w-auto brightness-0 invert" width="256" height="256" />
+          </picture>
         </a>
         <p class="text-[14px] text-white/80 leading-relaxed max-w-xs mt-3">
           Consultora de inteligencia artificial aplicada a la industria y

@@ -6,8 +6,11 @@ const isActive = (path: string) => currentPath.startsWith(path);
 <nav class="fixed top-0 left-0 right-0 z-[100] border-b border-jhedai-primary/10 bg-white/80 backdrop-blur-xl">
   <div class="container flex items-center justify-between h-16">
     <div class="flex items-center gap-8">
-      <a href="https://jhedai.com" class="flex items-center gap-2.5">
-        <img src="/logo-jhedai.png" alt="JhedAI" class="h-36 w-auto" />
+      <a href="https://jhedai.com" class="flex items-center gap-2.5 h-16 overflow-hidden">
+        <picture>
+          <source srcset="/logo-jhedai.webp" type="image/webp" />
+          <img src="/logo-jhedai.png" alt="JhedAI" class="h-36 w-auto" width="256" height="256" />
+        </picture>
       </a>
 
       <div class="hidden md:flex items-center gap-6 text-[14px] font-medium text-jhedai-primary/70">

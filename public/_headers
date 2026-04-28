@@ -15,3 +15,6 @@
 
 /logo-jhedai.png
   Cache-Control: public, max-age=86400
+
+/logo-jhedai.webp
+  Cache-Control: public, max-age=86400

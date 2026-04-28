@@ -4,7 +4,7 @@ export const prerender = false;
 import BlogLayout from "../../layouts/BlogLayout.astro";
 import BlogCard from "../../components/BlogCard.astro";
 import Pagination from "../../components/Pagination.astro";
-import { getPosts, getCategories } from "../../lib/api";
+import { getPosts, getCategories, getImageUrl } from "../../lib/api";
 
 const page = Number(Astro.url.searchParams.get("page") || "1");
 const category = Astro.url.searchParams.get("category") || "";
@@ -43,7 +43,7 @@ Astro.response.headers.set(
 >
   <Fragment slot="head">
     {featuredPost?.featuredImage && (
-      <link rel="preload" as="image" href={featuredPost.featuredImage} fetchpriority="high" />
+      <link rel="preload" as="image" href={getImageUrl(featuredPost.featuredImage, "featured")} fetchpriority="high" />
     )}
   </Fragment>
   <div class="pt-20 pb-24 bg-white">
@@ -106,7 +106,7 @@ Astro.response.headers.set(
               <div class="aspect-video lg:aspect-auto lg:min-h-[320px] overflow-hidden">
                 {featuredPost.featuredImage ? (
                   <img
-                    src={featuredPost.featuredImage}
+                    src={getImageUrl(featuredPost.featuredImage, "featured")}
                     alt={featuredPost.featuredImageAlt || featuredPost.title}
                     loading="eager"
                     fetchpriority="high"

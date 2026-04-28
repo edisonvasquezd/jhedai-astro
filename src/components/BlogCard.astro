@@ -54,21 +54,21 @@ const date = new Date(post.publishedAt).toLocaleDateString("es-CL", {
       <span class={`inline-block px-3 py-1 rounded-full text-xs font-bold ${catColor}`}>
         {post.category}
       </span>
-      <time datetime={post.publishedAt} class="text-[12px] text-jhedai-primary/50">
+      <time datetime={post.publishedAt} class="text-[12px] text-[#3D6B8A]">
         {date}
       </time>
-      <span class="text-[12px] text-jhedai-primary/50">{post.readTime}</span>
+      <span class="text-[12px] text-[#3D6B8A]">{post.readTime}</span>
     </div>
 
     <h2 class="font-bold text-lg text-jhedai-primary mb-2 group-hover:text-jhedai-secondary transition-colors line-clamp-2">
       {post.title}
     </h2>
 
-    <p class="text-[15px] text-jhedai-primary/60 leading-relaxed mb-4 line-clamp-2">
+    <p class="text-[15px] text-[#3D6B8A] leading-relaxed mb-4 line-clamp-2">
       {post.excerpt}
     </p>
 
-    <span class="inline-flex items-center gap-2 text-[14px] font-semibold text-jhedai-primary/50 group-hover:text-jhedai-secondary transition-colors">
+    <span class="inline-flex items-center gap-2 text-[14px] font-semibold text-[#3D6B8A] group-hover:text-jhedai-secondary transition-colors">
       Leer artículo →
     </span>
   </div>

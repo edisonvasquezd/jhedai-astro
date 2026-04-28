@@ -19,6 +19,11 @@ if (!post) {
   return Astro.redirect("/blog", 302);
 }
 
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, s-maxage=3600, stale-while-revalidate=86400",
+);
+
 const date = new Date(post.publishedAt).toLocaleDateString("es-CL", {
   day: "numeric",
   month: "long",
@@ -56,9 +61,11 @@ const blogPostingSchema = {
   abstract: post.excerpt,
   articleSection: post.category,
   inLanguage: "es-CL",
+  isAccessibleForFree: true,
+  about: [{ "@type": "Thing", name: post.category }],
   keywords: post.tags.join(", "),
   author: post.author.type === "Person"
-    ? { "@type": "Person", name: post.author.name, jobTitle: post.author.jobTitle, url: post.author.url, sameAs: post.author.sameAs }
+    ? { "@type": "Person", name: post.author.name, jobTitle: post.author.jobTitle, url: post.author.url, sameAs: post.author.sameAs, ...(post.author.avatar ? { image: { "@type": "ImageObject", url: post.author.avatar } } : {}) }
     : { "@type": "Organization", name: post.author.name, url: post.author.url || "https://jhedai.com", "@id": "https://jhedai.com/#organization", sameAs: post.author.sameAs },
   publisher: {
     "@type": "Organization",

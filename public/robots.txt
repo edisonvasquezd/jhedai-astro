@@ -1,0 +1,75 @@
+# ── Motores de búsqueda ────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Google-Extended: bloquea training de Gemini pero NO afecta AI Overviews
+User-agent: Google-Extended
+Disallow: /
+
+# ── ChatGPT Search (citation) — distinto de GPTBot (training) ─────────────
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# ── Perplexity ─────────────────────────────────────────────────────────────
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# ── Claude / Anthropic (tokens actuales) ──────────────────────────────────
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+# Tokens legacy de Anthropic (mantener por compatibilidad)
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# ── Otros AI crawlers ──────────────────────────────────────────────────────
+User-agent: YouBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# ── Scrapers no deseados ───────────────────────────────────────────────────
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# ── General ───────────────────────────────────────────────────────────────
+User-agent: *
+Allow: /
+Disallow: /admin/
+Crawl-delay: 1
+
+Sitemap: https://jhedai.com/sitemap-index.xml

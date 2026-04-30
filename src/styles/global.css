@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @source "../components/sections/**/*.tsx";
 @source "../components/3d/**/*.tsx";
+@source "../components/Navbar.astro";
 
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(30px); }
@@ -63,6 +64,15 @@
 .boton-secundario:hover {
   background-color: var(--color-jhedai-primary);
   color: white;
+}
+
+.nav-contactar-desktop {
+  display: none;
+}
+@media (min-width: 768px) {
+  .nav-contactar-desktop {
+    display: inline-block;
+  }
 }
 
 .glass-card {

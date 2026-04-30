@@ -1,0 +1,51 @@
+---
+export const prerender = true;
+import SiteLayout from "../layouts/SiteLayout.astro";
+import EcosistemaContent from "../components/sections/EcosistemaContent";
+
+const canonical = "https://jhedai.com/ecosistema";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
+    { "@type": "ListItem", position: 2, name: "Ecosistema", item: "https://jhedai.com/ecosistema" },
+  ],
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Ecosistema de IA - JhedAI",
+  description: "Infraestructura, instituciones y estándares para la IA en Chile",
+  url: "https://jhedai.com/ecosistema",
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
+      { "@type": "ListItem", position: 2, name: "Ecosistema", item: "https://jhedai.com/ecosistema" },
+    ],
+  },
+  mainEntity: {
+    "@type": "Organization",
+    name: "JhedAI",
+    url: "https://jhedai.com",
+    memberOf: [
+      { "@type": "Organization", name: "CChIA — Cámara Chilena de Inteligencia Artificial" },
+      { "@type": "Organization", name: "CSIAA — Centro de Supercómputo e IA Aplicada" },
+      { "@type": "Organization", name: "Comunidad Latam AI" },
+    ],
+  },
+};
+---
+
+<SiteLayout
+  title="Ecosistema de IA | Infraestructura, Instituciones y Comunidad - JhedAI"
+  description="Conoce el ecosistema de Inteligencia Artificial que JhedAI está construyendo en Chile: CSIAA, Cámara Chilena de IA, perfiles ChileValora y comunidad Latam AI."
+  canonical={canonical}
+  og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
+  schemas={[breadcrumbSchema, webPageSchema]}
+>
+  <EcosistemaContent client:visible />
+</SiteLayout>

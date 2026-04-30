@@ -1,0 +1,113 @@
+---
+export const prerender = true;
+import SiteLayout from "../layouts/SiteLayout.astro";
+import ServiciosContent from "../components/sections/ServiciosContent";
+
+const canonical = "https://jhedai.com/servicios";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
+    { "@type": "ListItem", position: 2, name: "Servicios", item: "https://jhedai.com/servicios" },
+  ],
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Servicios de Inteligencia Artificial - JhedAI",
+  description: "Soluciones tecnológicas de inteligencia artificial para empresas e industria en Chile.",
+  url: "https://jhedai.com/servicios",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      item: {
+        "@type": "Service",
+        name: "Análisis de Datos",
+        description: "Transformamos datos brutos en insights accionables mediante análisis estadístico avanzado, minería de datos y modelado predictivo.",
+        provider: { "@type": "Organization", name: "JhedAI", url: "https://jhedai.com" },
+        areaServed: "CL",
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      item: {
+        "@type": "Service",
+        name: "Machine Learning",
+        description: "Desarrollo de modelos de ML personalizados para clasificación, regresión, clustering y forecasting.",
+        provider: { "@type": "Organization", name: "JhedAI", url: "https://jhedai.com" },
+        areaServed: "CL",
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      item: {
+        "@type": "Service",
+        name: "Business Intelligence",
+        description: "Soluciones empresariales de BI con reporting interactivo, seguimiento de KPIs y analítica estratégica.",
+        provider: { "@type": "Organization", name: "JhedAI", url: "https://jhedai.com" },
+        areaServed: "CL",
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 4,
+      item: {
+        "@type": "Service",
+        name: "Procesamiento de Lenguaje Natural",
+        description: "Análisis avanzado de texto, detección de sentimiento y desarrollo de IA conversacional con LLMs.",
+        provider: { "@type": "Organization", name: "JhedAI", url: "https://jhedai.com" },
+        areaServed: "CL",
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 5,
+      item: {
+        "@type": "Service",
+        name: "Computer Vision",
+        description: "Reconocimiento de imágenes, detección de objetos e inspección automatizada para industria y retail.",
+        provider: { "@type": "Organization", name: "JhedAI", url: "https://jhedai.com" },
+        areaServed: "CL",
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 6,
+      item: {
+        "@type": "Service",
+        name: "Automatizaciones y Agentes",
+        description: "Desarrollo de agentes autónomos de IA y automatización de workflows para optimización de procesos.",
+        provider: { "@type": "Organization", name: "JhedAI", url: "https://jhedai.com" },
+        areaServed: "CL",
+      },
+    },
+    {
+      "@type": "ListItem",
+      position: 7,
+      item: {
+        "@type": "Service",
+        name: "Data Science",
+        description: "Ciclo completo de data science desde formulación de hipótesis hasta deployment en producción.",
+        provider: { "@type": "Organization", name: "JhedAI", url: "https://jhedai.com" },
+        areaServed: "CL",
+      },
+    },
+  ],
+};
+---
+
+<SiteLayout
+  title="Servicios de IA | Machine Learning, NLP, Computer Vision - JhedAI"
+  description="Soluciones tecnológicas de inteligencia artificial: análisis de datos, machine learning, business intelligence, NLP, computer vision, automatización y data science."
+  canonical={canonical}
+  og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
+  schemas={[breadcrumbSchema, serviceSchema]}
+>
+  <ServiciosContent client:only="react" />
+</SiteLayout>

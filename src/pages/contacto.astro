@@ -1,0 +1,43 @@
+---
+export const prerender = true;
+import SiteLayout from "../layouts/SiteLayout.astro";
+import ContactoContent from "../components/sections/ContactoContent";
+
+const canonical = "https://jhedai.com/contacto";
+
+const contactPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contacto JhedAi",
+  url: canonical,
+  mainEntity: {
+    "@type": "Organization",
+    name: "JhedAi",
+    email: "contacto@jhedai.com",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Viña del Mar",
+      addressCountry: "CL",
+    },
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
+    { "@type": "ListItem", position: 2, name: "Contacto", item: canonical },
+  ],
+};
+---
+
+<SiteLayout
+  title="Contacto | JhedAI — Consultoría de Inteligencia Artificial"
+  description="Agenda una consulta con el equipo de JhedAi. Diagnóstico, implementación y capacitación en inteligencia artificial para tu empresa."
+  canonical={canonical}
+  og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
+  schemas={[breadcrumbSchema, contactPageSchema]}
+>
+  <ContactoContent client:only="react" />
+</SiteLayout>

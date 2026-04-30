@@ -1,0 +1,52 @@
+---
+export const prerender = true;
+import SiteLayout from "../layouts/SiteLayout.astro";
+import NosotrosContent from "../components/sections/NosotrosContent";
+
+const canonical = "https://jhedai.com/nosotros";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
+    { "@type": "ListItem", position: 2, name: "Nosotros", item: "https://jhedai.com/nosotros" },
+  ],
+};
+
+const aboutPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Nosotros - JhedAI",
+  description: "Historia y trayectoria de JhedAI",
+  url: canonical,
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
+      { "@type": "ListItem", position: 2, name: "Nosotros", item: "https://jhedai.com/nosotros" },
+    ],
+  },
+  mainEntity: {
+    "@type": "Organization",
+    name: "JhedAI",
+    url: "https://jhedai.com",
+    description: "Consultora líder en inteligencia artificial aplicada para industria y gobierno en Chile.",
+    foundingDate: "2024-03",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "CL",
+    },
+  },
+};
+---
+
+<SiteLayout
+  title="Nosotros | Consultora de Inteligencia Artificial en Chile"
+  description="Conoce la historia de JhedAI, la consultora líder en inteligencia artificial aplicada para industria y gobierno en Chile."
+  canonical={canonical}
+  og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
+  schemas={[breadcrumbSchema, aboutPageSchema]}
+>
+  <NosotrosContent client:only="react" />
+</SiteLayout>

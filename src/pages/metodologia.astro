@@ -1,0 +1,41 @@
+---
+export const prerender = true;
+import SiteLayout from "../layouts/SiteLayout.astro";
+import MetodologiaContent from "../components/sections/MetodologiaContent";
+
+const canonical = "https://jhedai.com/metodologia";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
+    { "@type": "ListItem", position: 2, name: "Metodología", item: "https://jhedai.com/metodologia" },
+  ],
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Metodología Introgresiva - JhedAI",
+  description: "Enfoque integral para la adopción de Inteligencia Artificial",
+  url: canonical,
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" },
+      { "@type": "ListItem", position: 2, name: "Metodología", item: "https://jhedai.com/metodologia" },
+    ],
+  },
+};
+---
+
+<SiteLayout
+  title="Metodología Introgresiva | Consultoría IA Chile - JhedAI"
+  description="Conoce nuestra metodología Introgresiva: un enfoque integral de 4 fases para la adopción de Inteligencia Artificial en tu empresa. Diagnóstico, capacitación, KPIs e implementación."
+  canonical={canonical}
+  og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
+  schemas={[breadcrumbSchema, webPageSchema]}
+>
+  <MetodologiaContent client:visible />
+</SiteLayout>

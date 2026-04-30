@@ -1,0 +1,15 @@
+---
+export const prerender = true;
+import SiteLayout from "../layouts/SiteLayout.astro";
+import TerminosContent from "../components/sections/TerminosContent";
+---
+
+<SiteLayout
+  title="Términos y Condiciones | JhedAI"
+  description="Términos y condiciones de uso del sitio web de JhedAi."
+  canonical="https://jhedai.com/terminos"
+  noindex={true}
+  schemas={[]}
+>
+  <TerminosContent client:visible />
+</SiteLayout>

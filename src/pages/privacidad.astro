@@ -1,0 +1,15 @@
+---
+export const prerender = true;
+import SiteLayout from "../layouts/SiteLayout.astro";
+import PrivacidadContent from "../components/sections/PrivacidadContent";
+---
+
+<SiteLayout
+  title="Política de Privacidad | JhedAI"
+  description="Política de privacidad de JhedAi. Conoce cómo recopilamos, usamos y protegemos tus datos personales."
+  canonical="https://jhedai.com/privacidad"
+  noindex={true}
+  schemas={[]}
+>
+  <PrivacidadContent client:visible />
+</SiteLayout>

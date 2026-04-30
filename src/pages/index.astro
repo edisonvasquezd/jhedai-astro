@@ -1,3 +1,95 @@
 ---
-return Astro.redirect("/blog", 301);
+export const prerender = false;
+import SiteLayout from "../layouts/SiteLayout.astro";
+import Hero from "../components/sections/Hero";
+import ServiceGrid from "../components/sections/ServiceGrid";
+import Methodology from "../components/sections/Methodology";
+import AgentesAutonomos from "../components/sections/AgentesAutonomos";
+import VisionIndustrial from "../components/sections/VisionIndustrial";
+import AcademiaJhedai from "../components/sections/AcademiaJhedai";
+import DeepLab from "../components/sections/DeepLab";
+import NosotrosSimple from "../components/sections/NosotrosSimple";
+import Blog from "../components/sections/Blog";
+import Assessment from "../components/sections/Assessment";
+import ParticleSphere from "../components/3d/ParticleSphere";
+
+const canonical = "https://jhedai.com";
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "JhedAI",
+  url: "https://jhedai.com",
+  logo: "https://jhedai.com/logo-jhedai.png",
+  description: "Consultora de inteligencia artificial aplicada a la industria y gobierno en Chile.",
+  address: { "@type": "PostalAddress", addressCountry: "CL" },
+  contactPoint: { "@type": "ContactPoint", contactType: "customer service", email: "contacto@jhedai.com" },
+  sameAs: [
+    "https://www.linkedin.com/company/jhedai/",
+    "https://www.instagram.com/jhedai_com/",
+    "https://www.youtube.com/channel/UCtBghUFTLLCdpnbRDt9tFRA",
+  ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "JhedAI",
+  url: "https://jhedai.com",
+  potentialAction: { "@type": "SearchAction", target: "https://jhedai.com/blog?q={search_term_string}", "query-input": "required name=search_term_string" },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [{ "@type": "ListItem", position: 1, name: "Inicio", item: "https://jhedai.com" }],
+};
 ---
+
+<SiteLayout
+  title="Consultora de Inteligencia Artificial en Chile | JhedAI"
+  description="Diagnóstico, implementación y capacitación en inteligencia artificial para la industria y gobierno en Chile. Metodología propietaria con enfoque en resultados medibles."
+  canonical={canonical}
+  og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
+  schemas={[organizationSchema, websiteSchema, breadcrumbSchema]}
+>
+  <Hero client:load />
+  <ServiceGrid client:visible />
+
+  <!-- Separador visual -->
+  <div class="relative py-20 overflow-hidden bg-gradient-to-b from-white via-gray-50/50 to-white">
+    <div class="absolute inset-0 opacity-30">
+      <div class="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-jhedai-secondary/10 blur-3xl"></div>
+      <div class="absolute top-1/2 right-1/4 translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-jhedai-primary/10 blur-3xl"></div>
+    </div>
+    <div class="container relative">
+      <div class="flex items-center justify-center gap-2">
+        <div class="h-px w-20 bg-gradient-to-r from-transparent to-jhedai-secondary/30"></div>
+        <div class="w-2 h-2 rounded-full bg-jhedai-secondary/40"></div>
+        <div class="h-px w-32 bg-gradient-to-r from-jhedai-secondary/30 via-jhedai-primary/30 to-jhedai-secondary/30"></div>
+        <div class="w-2 h-2 rounded-full bg-jhedai-primary/40"></div>
+        <div class="h-px w-20 bg-gradient-to-l from-transparent to-jhedai-primary/30"></div>
+      </div>
+    </div>
+  </div>
+
+  <Methodology client:visible />
+
+  <!-- Ecosistema con ParticleSphere 3D -->
+  <div class="relative bg-jhedai-primary">
+    <ParticleSphere client:only="react" />
+    <div class="relative z-10">
+      <AgentesAutonomos client:visible />
+      <div class="container"><div class="h-px bg-white/10"></div></div>
+      <VisionIndustrial client:visible />
+      <div class="container"><div class="h-px bg-white/10"></div></div>
+      <AcademiaJhedai client:visible />
+      <div class="container"><div class="h-px bg-white/10"></div></div>
+      <DeepLab client:visible />
+    </div>
+  </div>
+
+  <NosotrosSimple client:visible />
+  <Blog client:visible />
+  <Assessment client:visible />
+</SiteLayout>

@@ -156,7 +156,7 @@ const EcosistemaContent = (): JSX.Element => {
           className="mx-auto" style={{ maxWidth: "537px" }}
         >
           <img
-            src="/Ecosistema JhedAi.png"
+            src="/ecosistema-jhedai.png"
             alt="Ecosistema de Inteligencia Artificial de JhedAI"
             className="w-full h-auto rounded-2xl shadow-lg border border-jhedai-neutral/20"
           />

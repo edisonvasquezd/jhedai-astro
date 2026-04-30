@@ -191,12 +191,11 @@ const MetodologiaContent = () => {
               METODOLOGIA
             </p>
             <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-              Nuestros Servicios
+              Metodología Introgresiva
             </h1>
             <p className="text-xl text-white/80 leading-relaxed max-w-3xl mx-auto">
-              La transformaci&oacute;n digital es clave para la
-              innovaci&oacute;n y eficiencia empresarial, y la Inteligencia
-              Artificial redefine la operaci&oacute;n y toma de decisiones.
+              Un enfoque integral de 4 fases para la adopción responsable y
+              medible de Inteligencia Artificial en tu organización.
             </p>
           </motion.div>
         </div>

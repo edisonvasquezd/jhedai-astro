@@ -1,5 +1,5 @@
 {
-  "name": "jhedai-blog",
+  "name": "jhedai-astro",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -15,10 +15,13 @@
   "dependencies": {
     "@astrojs/cloudflare": "^13.2.1",
     "@astrojs/react": "^5.0.4",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
     "@tailwindcss/vite": "^4.2.4",
     "@types/dompurify": "^3.0.5",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.184.0",
     "astro": "^6.1.9",
     "dompurify": "^3.4.1",
     "framer-motion": "^12.38.0",
@@ -27,6 +30,7 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "tailwindcss": "^4.2.4",
+    "three": "^0.183.2",
     "wrangler": "^4.85.0"
   },
   "overrides": {

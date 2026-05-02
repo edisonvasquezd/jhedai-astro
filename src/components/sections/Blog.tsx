@@ -14,10 +14,27 @@ const categoryColors: Record<string, string> = {
 
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getPosts({ limit: 4 }).then((res) => setPosts(res.data));
+    getPosts(1, 4)
+      .then((res) => setPosts(res.data))
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) return (
+    <section className="py-24 bg-white">
+      <div className="container">
+        <div className="h-8 w-48 bg-jhedai-neutral/30 rounded animate-pulse mx-auto mb-4" />
+        <div className="h-4 w-96 bg-jhedai-neutral/20 rounded animate-pulse mx-auto mb-12" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="rounded-2xl bg-jhedai-neutral/10 h-64 animate-pulse" />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 
   if (posts.length === 0) return null;
 
@@ -55,7 +72,7 @@ const Blog = () => {
           className="mb-8"
         >
           <a
-            to={`/blog/${featured.slug}`}
+            href={`/blog/${featured.slug}`}
             className="group block relative rounded-2xl overflow-hidden"
           >
             {featured.featuredImage && (
@@ -107,7 +124,7 @@ const Blog = () => {
               transition={{ delay: i * 0.1, duration: 0.5 }}
             >
               <a
-                to={`/blog/${article.slug}`}
+                href={`/blog/${article.slug}`}
                 className="group block glass-card overflow-hidden cursor-pointer hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
               >
                 {article.featuredImage && (

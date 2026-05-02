@@ -12,5 +12,16 @@ export default defineConfig({
     ssr: {
       external: ['node:buffer'],
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('three') || id.includes('@react-three')) return 'three-vendor';
+            if (id.includes('framer-motion')) return 'animation-vendor';
+            if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) return 'react-vendor';
+          },
+        },
+      },
+    },
   },
 });

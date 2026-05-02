@@ -11,7 +11,7 @@ import DeepLab from "../components/sections/DeepLab";
 import NosotrosSimple from "../components/sections/NosotrosSimple";
 import Blog from "../components/sections/Blog";
 import Assessment from "../components/sections/Assessment";
-import ParticleSphere from "../components/3d/ParticleSphere";
+import ParticleSphereLoader from "../components/3d/ParticleSphereLoader";
 
 const canonical = "https://jhedai.com";
 
@@ -53,7 +53,7 @@ const breadcrumbSchema = {
   og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
   schemas={[organizationSchema, websiteSchema, breadcrumbSchema]}
 >
-  <Hero client:load />
+  <Hero client:visible />
   <ServiceGrid client:visible />
 
   <!-- Separador visual -->
@@ -77,7 +77,9 @@ const breadcrumbSchema = {
 
   <!-- Ecosistema con ParticleSphere 3D -->
   <div class="relative bg-jhedai-primary">
-    <ParticleSphere client:only="react" />
+    {!Astro.request.headers.get("user-agent")?.match(/Mobile|Android|iPhone|iPad/i) && (
+      <ParticleSphereLoader client:only="react" />
+    )}
     <div class="relative z-10">
       <AgentesAutonomos client:visible />
       <div class="container"><div class="h-px bg-white/10"></div></div>
@@ -90,6 +92,6 @@ const breadcrumbSchema = {
   </div>
 
   <NosotrosSimple client:visible />
-  <Blog client:load />
+  <Blog client:idle />
   <Assessment client:visible />
 </SiteLayout>

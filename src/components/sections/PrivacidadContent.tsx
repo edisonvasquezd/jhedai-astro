@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 
 const PrivacidadContent = () => {
   return (
@@ -18,11 +17,7 @@ const PrivacidadContent = () => {
           </span>
         </nav>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div>
           <h1 className="text-3xl lg:text-4xl font-bold text-jhedai-primary mb-2">
             Política de Privacidad
           </h1>
@@ -130,7 +125,7 @@ const PrivacidadContent = () => {
               página con la fecha de última actualización.
             </p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

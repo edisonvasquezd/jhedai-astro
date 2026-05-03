@@ -77,7 +77,7 @@ const AgentesAutonomos = () => {
                 className="group bg-white/[0.07] backdrop-blur-sm border border-white/10 rounded-2xl p-8 relative overflow-hidden cursor-pointer hover:bg-white/[0.12] hover:-translate-y-1 hover:shadow-lg hover:shadow-jhedai-secondary/10 transition-all duration-300 border-l-4 border-l-transparent hover:border-l-jhedai-secondary"
               >
                 {/* Number */}
-                <span className="absolute top-4 right-4 text-2xl font-black text-white/10 group-hover:text-jhedai-secondary/30 transition-colors font-mono">
+                <span className="absolute top-4 right-4 text-2xl font-black text-white/20 group-hover:text-jhedai-secondary/40 transition-colors font-mono">
                   {item.num}
                 </span>
 

@@ -79,6 +79,8 @@ const Blog = () => {
               <img
                 src={featured.featuredImage}
                 alt={featured.featuredImageAlt || featured.title}
+                width={800}
+                height={450}
                 className="absolute inset-0 w-full h-full object-cover"
               />
             )}
@@ -132,6 +134,8 @@ const Blog = () => {
                     <img
                       src={article.featuredImage}
                       alt={article.featuredImageAlt || article.title}
+                      width={400}
+                      height={225}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"
                     />

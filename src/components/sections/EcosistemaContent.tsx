@@ -126,7 +126,7 @@ const EcosistemaContent = (): JSX.Element => {
 
         <div className="container relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
@@ -150,7 +150,7 @@ const EcosistemaContent = (): JSX.Element => {
       {/* Gráfico del Ecosistema */}
       <div className="container py-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mx-auto" style={{ maxWidth: "537px" }}
@@ -158,6 +158,8 @@ const EcosistemaContent = (): JSX.Element => {
           <img
             src="/ecosistema-jhedai.png"
             alt="Ecosistema de Inteligencia Artificial de JhedAI"
+            width={537}
+            height={537}
             className="w-full h-auto rounded-2xl shadow-lg border border-jhedai-neutral/20"
           />
         </motion.div>

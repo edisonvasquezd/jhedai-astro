@@ -3,16 +3,18 @@ import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
+import { criticalCSSIntegration } from './src/integrations/critical-css.mjs';
 
 export default defineConfig({
   adapter: cloudflare(),
-  integrations: [react()],
+  integrations: [react(), criticalCSSIntegration()],
   vite: {
     plugins: [tailwindcss()],
     ssr: {
       external: ['node:buffer'],
     },
     build: {
+      sourcemap: true,
       rollupOptions: {
         output: {
           manualChunks(id) {

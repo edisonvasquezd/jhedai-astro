@@ -182,7 +182,7 @@ const MetodologiaContent = () => {
 
         <div className="container relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto text-center"
@@ -235,6 +235,8 @@ const MetodologiaContent = () => {
           <img
             src="/grafica_metodologia.jpg"
             alt="Gráfica de la Metodología Introgresiva de JhedAI"
+            width={780}
+            height={585}
             className="w-full h-auto rounded-2xl shadow-lg border border-jhedai-neutral/20"
           />
         </motion.div>

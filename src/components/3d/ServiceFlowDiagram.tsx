@@ -126,7 +126,7 @@ const ServiceFlowDiagram = ({ type, gradient }: ServiceFlowDiagramProps) => {
     >
       <ArrowDown
         size={20}
-        className={`text-jhedai-primary/30 ${!vertical ? "-rotate-90" : ""}`}
+        className={`text-jhedai-primary/50 ${!vertical ? "-rotate-90" : ""}`}
       />
     </motion.div>
   );

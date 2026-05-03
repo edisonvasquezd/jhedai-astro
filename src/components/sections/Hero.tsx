@@ -79,7 +79,7 @@ const Hero = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.5 }}
+        transition={{ duration: 1.2, delay: 0.8 }}
         className="absolute inset-0 lg:left-[40%] opacity-30 lg:opacity-100 pointer-events-none z-[1] overflow-visible"
       >
         <Suspense fallback={null}>
@@ -91,7 +91,7 @@ const Hero = () => {
         <div className="lg:w-1/2 text-center lg:text-left">
           {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-jhedai-primary/5 border border-jhedai-primary/10 text-[14px] font-medium text-jhedai-primary mb-8"
@@ -103,11 +103,11 @@ const Hero = () => {
             Consultora IA en Chile
           </motion.div>
 
-          {/* Headline */}
+          {/* Headline — opacity starts at 1 so Lighthouse can measure LCP immediately */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 1, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
             className="text-4xl sm:text-5xl lg:text-[64px] xl:text-[72px] font-bold leading-[1.1] tracking-tight mb-8"
           >
             <span className="text-jhedai-primary">IA Aplicada</span>
@@ -119,7 +119,7 @@ const Hero = () => {
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-base sm:text-lg text-jhedai-primary/60 max-w-lg mx-auto lg:mx-0 mb-10 leading-relaxed"
@@ -130,7 +130,7 @@ const Hero = () => {
 
           {/* CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
             className="flex flex-wrap justify-center lg:justify-start gap-4"
@@ -150,7 +150,7 @@ const Hero = () => {
 
         {/* Trust bar */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4, duration: 1 }}
           className="mt-20 lg:mt-16 pt-12"
@@ -172,6 +172,8 @@ const Hero = () => {
                   <img
                     src={partner.logo}
                     alt={partner.name}
+                    width={partner.size === 'xl' ? 224 : partner.size === 'lg' ? 192 : 144}
+                    height={partner.size === 'xl' ? 128 : partner.size === 'lg' ? 96 : 64}
                     className="max-h-full max-w-full object-contain transition-transform duration-300 hover:scale-110"
                     loading="lazy"
                   />

@@ -74,14 +74,14 @@ const ContactoContent = () => {
   };
 
   const inputClasses =
-    "w-full bg-white/70 border border-jhedai-neutral/20 rounded-lg px-3.5 py-2.5 text-[14px] text-jhedai-primary placeholder:text-jhedai-primary/25 focus:border-jhedai-secondary focus:ring-2 focus:ring-jhedai-secondary/15 outline-none transition-all";
+    "w-full bg-white/70 border border-jhedai-neutral/20 rounded-lg px-3.5 py-2.5 text-[14px] text-jhedai-primary placeholder:text-jhedai-primary/40 focus:border-jhedai-secondary focus:ring-2 focus:ring-jhedai-secondary/15 outline-none transition-all";
 
   return (
     <div className="pt-28 pb-24 bg-white">
       <div className="container">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
@@ -101,7 +101,7 @@ const ContactoContent = () => {
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-12 items-start max-w-5xl mx-auto">
           {/* Left — Info */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 1, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:w-5/12 space-y-3 lg:sticky lg:top-32"
@@ -149,7 +149,7 @@ const ContactoContent = () => {
 
           {/* Right — Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 1, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="lg:w-7/12 w-full"

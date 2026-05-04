@@ -19,9 +19,11 @@ const Blog = () => {
   useEffect(() => {
     getPosts(1, 12)
       .then((res) => {
+        const excluded = ['manufactura-vision-computadora-ia', 'industria-vision-computadora-ia'];
+        const filtered = res.data.filter((p) => !excluded.includes(p.slug));
         const sorted = [
-          ...res.data.filter((p) => p.featured),
-          ...res.data.filter((p) => !p.featured),
+          ...filtered.filter((p) => p.featured),
+          ...filtered.filter((p) => !p.featured),
         ];
         setPosts(sorted.slice(0, 4));
       })

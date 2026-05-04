@@ -8,6 +8,16 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+main > astro-island {
+  display: block;
+  animation: fadeIn 0.25s ease-out;
+}
+
 .card-animate {
   opacity: 0;
   animation: fadeInUp 0.5s ease forwards;
@@ -150,3 +160,17 @@
 .prose table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
 .prose th { background: rgba(0,56,101,0.06); padding: 0.75rem 1rem; text-align: left; font-weight: 700; }
 .prose td { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(0,56,101,0.08); }
+
+.hero-mobile-fallback {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 60% 50%,
+    rgba(0, 169, 224, 0.15) 0%,
+    rgba(0, 56, 101, 0.08) 40%,
+    transparent 70%);
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}

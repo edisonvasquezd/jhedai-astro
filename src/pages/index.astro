@@ -13,6 +13,8 @@ import Blog from "../components/sections/Blog";
 import Assessment from "../components/sections/Assessment";
 import ParticleSphereLoader from "../components/3d/ParticleSphereLoader";
 
+const ua = Astro.request.headers.get("user-agent") ?? "";
+const isMobile = /Mobile|Android|iPhone|iPad/i.test(ua);
 const canonical = "https://jhedai.com";
 
 const organizationSchema = {
@@ -53,8 +55,8 @@ const breadcrumbSchema = {
   og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
   schemas={[organizationSchema, websiteSchema, breadcrumbSchema]}
 >
-  <Hero client:visible />
-  <ServiceGrid client:visible />
+  <Hero client:visible isMobile={isMobile} />
+  <ServiceGrid client:idle />
 
   <!-- Separador visual -->
   <div class="relative py-20 overflow-hidden bg-gradient-to-b from-white via-gray-50/50 to-white">
@@ -73,7 +75,7 @@ const breadcrumbSchema = {
     </div>
   </div>
 
-  <Methodology client:visible />
+  <Methodology client:idle isMobile={isMobile} />
 
   <!-- Ecosistema con ParticleSphere 3D -->
   <div class="relative bg-jhedai-primary">
@@ -83,15 +85,15 @@ const breadcrumbSchema = {
     <div class="relative z-10">
       <AgentesAutonomos client:visible />
       <div class="container"><div class="h-px bg-white/10"></div></div>
-      <VisionIndustrial client:visible />
+      <VisionIndustrial client:idle />
       <div class="container"><div class="h-px bg-white/10"></div></div>
-      <AcademiaJhedai client:visible />
+      <AcademiaJhedai client:idle />
       <div class="container"><div class="h-px bg-white/10"></div></div>
-      <DeepLab client:visible />
+      <DeepLab client:idle />
     </div>
   </div>
 
-  <NosotrosSimple client:visible />
+  <NosotrosSimple client:idle />
   <Blog client:idle />
-  <Assessment client:visible />
+  <Assessment client:idle />
 </SiteLayout>

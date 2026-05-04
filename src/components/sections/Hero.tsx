@@ -62,7 +62,7 @@ const partners: { name: string; logo: string; size?: "lg" | "xl" }[] = [
   { name: "Min Ciencia", logo: "/logos-partners/MIN-CIENCIA.webp", size: "lg" },
 ];
 
-const Hero = () => {
+const Hero = ({ isMobile = false }: { isMobile?: boolean }) => {
   return (
     <section className="relative min-h-[90vh] flex items-center pt-20 bg-white">
       {/* Ambient background elements */}
@@ -82,9 +82,13 @@ const Hero = () => {
         transition={{ duration: 1.2, delay: 0.8 }}
         className="absolute inset-0 lg:left-[40%] opacity-30 lg:opacity-100 pointer-events-none z-[1] overflow-visible"
       >
-        <Suspense fallback={null}>
-          <HeroTorus />
-        </Suspense>
+        {isMobile ? (
+          <div className="hero-mobile-fallback" />
+        ) : (
+          <Suspense fallback={null}>
+            <HeroTorus />
+          </Suspense>
+        )}
       </motion.div>
 
       <div className="container relative z-10">

@@ -31,24 +31,25 @@ const steps = [
 
 const MethodologyScene = lazy(() => import("../3d/MethodologyScene"));
 
-const Methodology = () => {
+const Methodology = ({ isMobile = false }: { isMobile?: boolean }) => {
   return (
     <section
       id="methodology"
       className="py-32 relative overflow-hidden bg-white"
     >
-      {/* 3D Background Flow — lazy loaded */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
-        <Suspense fallback={null}>
-          <MethodologyScene />
-        </Suspense>
-      </div>
+      {/* 3D Background Flow — lazy loaded, desktop only */}
+      {!isMobile && (
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
+          <Suspense fallback={null}>
+            <MethodologyScene />
+          </Suspense>
+        </div>
+      )}
 
       <div className="container relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          initial={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
@@ -70,7 +71,7 @@ const Methodology = () => {
               key={i}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, margin: "0px 0px -50px 0px" }}
               transition={{
                 delay: i * 0.15,
                 duration: 0.8,

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock } from "lucide-react";
 
-import { getPosts } from "../../lib/api";
+import { getPosts, getPost } from "../../lib/api";
 import type { BlogPost } from "../../lib/api";
 
 const categoryColors: Record<string, string> = {
@@ -23,12 +23,9 @@ const Blog = () => {
       'privacidad-datos-ia-riesgos-empresariales-jhedai',
       'capacitaciones-ia-empresas-chile-chilevalora',
     ];
-    getPosts(1, 20)
-      .then((res) => {
-        const ordered = PINNED
-          .map((slug) => res.data.find((p) => p.slug === slug))
-          .filter((p): p is BlogPost => p !== undefined);
-        setPosts(ordered);
+    Promise.all(PINNED.map((slug) => getPost(slug)))
+      .then((results) => {
+        setPosts(results.filter((p): p is BlogPost => p !== null));
       })
       .finally(() => setLoading(false));
   }, []);

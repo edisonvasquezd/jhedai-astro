@@ -17,8 +17,14 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getPosts(1, 4)
-      .then((res) => setPosts(res.data))
+    getPosts(1, 12)
+      .then((res) => {
+        const sorted = [
+          ...res.data.filter((p) => p.featured),
+          ...res.data.filter((p) => !p.featured),
+        ];
+        setPosts(sorted.slice(0, 4));
+      })
       .finally(() => setLoading(false));
   }, []);
 

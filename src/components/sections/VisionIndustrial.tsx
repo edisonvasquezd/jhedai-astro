@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 
 const items = [
   {
@@ -95,13 +94,7 @@ const VisionIndustrial = () => {
                 <p className="text-[15px] text-white/50 leading-relaxed mb-4">
                   {item.desc}
                 </p>
-                <div className="flex items-center gap-2 text-[14px] font-semibold text-white/40 group-hover:text-jhedai-secondary transition-colors">
-                  Ver solución{" "}
-                  <ArrowRight
-                    size={16}
-                    className="group-hover:translate-x-1 transition-transform"
-                  />
-                </div>
+
               </div>
             </motion.div>
           ))}

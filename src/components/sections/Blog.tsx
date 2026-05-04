@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Clock } from "lucide-react";
 
-import { getPosts, getPost } from "../../lib/api";
 import type { BlogPost } from "../../lib/api";
 
 const categoryColors: Record<string, string> = {
@@ -12,40 +10,75 @@ const categoryColors: Record<string, string> = {
   Tendencias: "bg-emerald-500/10 text-emerald-600",
 };
 
+const PINNED_POSTS: BlogPost[] = [
+  {
+    slug: "eficiencia-inteligencia-artificial-lenguaje-cuantico",
+    title: "Lenguaje Cuántico para IA: Un Nuevo Paradigma de Eficiencia en la Inteligencia Artificial",
+    excerpt: "El desarrollo de un Lenguaje Cuántico para IA representa un salto disruptivo en la eficiencia de los sistemas de inteligencia artificial.",
+    category: "Aspectos Técnicos IA Chile",
+    readTime: "4 min",
+    featuredImage: "https://imagedelivery.net/LUW2n1KCu7npWm7i7NCWng/b20cb1fc-1ff9-4d9e-f76b-ba7f8682d100/public",
+    featuredImageAlt: "Lenguaje Cuántico para IA",
+    featured: false,
+    publishedAt: "",
+    updatedAt: "",
+    tags: [],
+    faqItems: [],
+    speakableSelectors: [],
+    author: { id: 0, slug: "", name: "JhedAI", type: "Organization", sameAs: [] },
+  },
+  {
+    slug: "jhedai-participa-latam-gpt",
+    title: "JhedAI participa en Latam-GPT",
+    excerpt: "JhedAI se consolida como actor clave en el desarrollo de inteligencia artificial latinoamericana participando en el primer modelo de IA de LATAM.",
+    category: "Aspectos Técnicos IA Chile",
+    readTime: "5 min",
+    featuredImage: "https://imagedelivery.net/LUW2n1KCu7npWm7i7NCWng/a7de2c67-f89a-44d7-b7ef-869956deb600/public",
+    featuredImageAlt: "JhedAI en Latam-GPT",
+    featured: false,
+    publishedAt: "",
+    updatedAt: "",
+    tags: [],
+    faqItems: [],
+    speakableSelectors: [],
+    author: { id: 0, slug: "", name: "JhedAI", type: "Organization", sameAs: [] },
+  },
+  {
+    slug: "privacidad-datos-ia-riesgos-empresariales-jhedai",
+    title: "Privacidad Datos IA: Los Riesgos Ocultos que Amenazan a las Empresas",
+    excerpt: "La privacidad datos IA se ha convertido en una preocupación crítica para empresarios que utilizan herramientas de inteligencia artificial.",
+    category: "Aspectos Técnicos IA Chile",
+    readTime: "9 min",
+    featuredImage: "https://imagedelivery.net/LUW2n1KCu7npWm7i7NCWng/82b3d893-d0fe-4968-c78c-dce8543e5100/public",
+    featuredImageAlt: "Privacidad de datos en IA",
+    featured: false,
+    publishedAt: "",
+    updatedAt: "",
+    tags: [],
+    faqItems: [],
+    speakableSelectors: [],
+    author: { id: 0, slug: "", name: "JhedAI", type: "Organization", sameAs: [] },
+  },
+  {
+    slug: "capacitaciones-ia-empresas-chile-chilevalora",
+    title: "Capacitaciones IA Empresas Chile: JhedAI Pionero Nacional con Evaluadores Oficiales ChileValora",
+    excerpt: "Las Capacitaciones IA empresas Chile han alcanzado un hito histórico con la oficialización de los primeros 5 perfiles laborales en IA.",
+    category: "Blog IA Chile",
+    readTime: "12 min",
+    featuredImage: "https://imagedelivery.net/LUW2n1KCu7npWm7i7NCWng/5981d6cd-3dd0-4972-9a09-f282149ce000/public",
+    featuredImageAlt: "Capacitaciones IA Chile ChileValora",
+    featured: false,
+    publishedAt: "",
+    updatedAt: "",
+    tags: [],
+    faqItems: [],
+    speakableSelectors: [],
+    author: { id: 0, slug: "", name: "JhedAI", type: "Organization", sameAs: [] },
+  },
+];
+
 const Blog = () => {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const PINNED = [
-      'eficiencia-inteligencia-artificial-lenguaje-cuantico',
-      'jhedai-participa-latam-gpt',
-      'privacidad-datos-ia-riesgos-empresariales-jhedai',
-      'capacitaciones-ia-empresas-chile-chilevalora',
-    ];
-    Promise.all(PINNED.map((slug) => getPost(slug)))
-      .then((results) => {
-        setPosts(results.filter((p): p is BlogPost => p !== null));
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return (
-    <section className="py-24 bg-white">
-      <div className="container">
-        <div className="h-8 w-48 bg-jhedai-neutral/30 rounded animate-pulse mx-auto mb-4" />
-        <div className="h-4 w-96 bg-jhedai-neutral/20 rounded animate-pulse mx-auto mb-12" />
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="rounded-2xl bg-jhedai-neutral/10 h-64 animate-pulse" />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-
-  if (posts.length === 0) return null;
-
+  const posts = PINNED_POSTS;
   const [featured, ...secondary] = posts;
 
   return (

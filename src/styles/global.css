@@ -55,7 +55,9 @@ main > astro-island {
   transition: all 0.3s;
   box-shadow: 0 10px 15px -3px rgba(0,56,101,0.2);
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 .boton-principal:hover {
   filter: brightness(1.25);
@@ -69,7 +71,9 @@ main > astro-island {
   font-weight: 700;
   transition: all 0.3s;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 .boton-secundario:hover {
   background-color: var(--color-jhedai-primary);

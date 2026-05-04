@@ -17,15 +17,18 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getPosts(1, 12)
+    const PINNED = [
+      'eficiencia-inteligencia-artificial-lenguaje-cuantico',
+      'jhedai-participa-latam-gpt',
+      'privacidad-datos-ia-riesgos-empresariales-jhedai',
+      'capacitaciones-ia-empresas-chile-chilevalora',
+    ];
+    getPosts(1, 20)
       .then((res) => {
-        const excluded = ['manufactura-vision-computadora-ia', 'industria-vision-computadora-ia'];
-        const filtered = res.data.filter((p) => !excluded.includes(p.slug));
-        const sorted = [
-          ...filtered.filter((p) => p.featured),
-          ...filtered.filter((p) => !p.featured),
-        ];
-        setPosts(sorted.slice(0, 4));
+        const ordered = PINNED
+          .map((slug) => res.data.find((p) => p.slug === slug))
+          .filter((p): p is BlogPost => p !== undefined);
+        setPosts(ordered);
       })
       .finally(() => setLoading(false));
   }, []);

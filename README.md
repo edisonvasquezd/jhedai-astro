@@ -1,43 +1,76 @@
-# Astro Starter Kit: Minimal
+# JhedAI — Sitio Web Corporativo
 
-```sh
-npm create astro@latest -- --template minimal
+Sitio web de [JhedAI](https://jhedai.com), consultora de inteligencia artificial aplicada a la industria y gobierno en Chile.
+
+## Stack
+
+- **Framework**: Astro 5 + React 19 + TypeScript
+- **Estilos**: Tailwind CSS v4 + CSS custom
+- **3D**: Three.js + @react-three/fiber + @react-three/drei
+- **Animaciones**: Framer Motion
+- **Deploy**: Cloudflare Workers (SSR) via `@astrojs/cloudflare`
+- **Assets**: Cloudflare Images
+- **API**: `https://jhedai-api.edison-985.workers.dev`
+
+## URLs
+
+| Entorno | URL |
+|---------|-----|
+| Producción (Workers) | https://jhedai-astro.edison-985.workers.dev |
+| API | https://jhedai-api.edison-985.workers.dev |
+
+## Comandos
+
+```bash
+npm install          # Instalar dependencias
+npm run dev          # Dev server en localhost:4321
+npm run build        # Build para producción
+npm run preview      # Preview local del build
+npx wrangler deploy  # Deploy a Cloudflare Workers
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Estructura
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+src/
+├── components/
+│   ├── 3d/              # Componentes Three.js (HeroTorus, MethodologyScene, etc.)
+│   ├── sections/        # Secciones del home y páginas interiores
+│   ├── BlogCard.tsx
+│   └── Navbar.astro
+├── layouts/
+│   └── SiteLayout.astro
+├── pages/               # Rutas Astro (index, blog, servicios, etc.)
+├── styles/
+│   └── global.css       # Variables, utilidades, animaciones
+├── lib/
+│   └── api.ts           # Cliente API blog
+├── utils/
+│   └── deviceDetection.ts
+└── hooks/
+    └── useInViewport.ts
+public/
+├── logos-partners/      # Logos del carrusel Hero
+├── vision/              # Imágenes sección Visión Industrial
+└── ...
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Performance
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Métrica | Mobile | Desktop |
+|---------|--------|---------|
+| Score | 87 | 77 |
+| FCP | 0.3s | 0.3s |
+| LCP | 1.1s | 1.0s |
+| TBT | ~12s* | ~7.6s* |
+| CLS | 0 | 0 |
+| SEO | 100 | 100 |
 
-Any static assets, like images, can be placed in the `public/` directory.
+*TBT elevado en desktop por Three.js ejecutando en main thread. En mobile, Three.js no se carga — se detecta UA server-side y se sirve fallback CSS.
 
-## 🧞 Commands
+## Decisiones de arquitectura
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- **SSR con Cloudflare Workers**: todas las páginas se renderizan en el servidor para SEO óptimo
+- **Detección UA server-side**: `index.astro` detecta mobile via User-Agent y no envía `three-vendor.js` (231 KB) a dispositivos móviles
+- **client:idle para secciones below-fold**: reduce TBT al diferir hidratación de React hasta que el browser esté idle
+- **Posts del home hardcodeados**: la sección Blog del home usa datos estáticos (sin llamada a API) para carga instantánea

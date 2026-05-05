@@ -56,7 +56,7 @@ const AgentesAutonomos = () => {
               con tus sistemas existentes.
             </p>
             <a
-              href="https://agentes-marketplace-jhedai.pages.dev"
+              href="https://agentes.jhedai.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="border-2 border-white/30 text-white px-6 py-2.5 rounded-md font-bold transition-all duration-300 hover:bg-white hover:text-jhedai-primary text-[14px] inline-flex items-center gap-2"

@@ -36,12 +36,14 @@ const DiagramFrame = ({ src }: { src: string }) => {
       src={src}
       title="Diagrama de servicio"
       loading="lazy"
+      scrolling="no"
       style={{
         width: "100%",
         height,
         border: 0,
         display: "block",
         background: "transparent",
+        overflow: "hidden",
       }}
     />
   );

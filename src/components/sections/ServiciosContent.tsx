@@ -237,7 +237,7 @@ const ServiciosContent = (): JSX.Element => {
           ))}
         </motion.div>
 
-        {/* Services - Stacked Layout (title → diagram → text) */}
+        {/* Services - Stacked Layout (title → text → diagram) */}
         <div className="mb-24 space-y-32">
           {services.map((service) => (
             <motion.div
@@ -265,20 +265,6 @@ const ServiciosContent = (): JSX.Element => {
                 </div>
               </div>
 
-              {/* Flow Diagram - full width */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.97 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="relative w-full"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-jhedai-primary/5 to-jhedai-secondary/5 rounded-3xl blur-2xl" />
-                <div className="relative glass-card p-5 lg:p-8 rounded-3xl border-2 border-jhedai-neutral/20 bg-white/80 backdrop-blur-sm">
-                  <ServiceFlowDiagram serviceId={service.id} />
-                </div>
-              </motion.div>
-
               {/* Description + benefits */}
               <div className="grid lg:grid-cols-12 gap-8 items-start">
                 <p className="lg:col-span-5 text-lg text-jhedai-primary/70 leading-relaxed">
@@ -302,6 +288,20 @@ const ServiciosContent = (): JSX.Element => {
                   ))}
                 </div>
               </div>
+
+              {/* Flow Diagram - full width */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="relative w-full"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-jhedai-primary/5 to-jhedai-secondary/5 rounded-3xl blur-2xl" />
+                <div className="relative glass-card p-5 lg:p-8 rounded-3xl border-2 border-jhedai-neutral/20 bg-white/80 backdrop-blur-sm">
+                  <ServiceFlowDiagram serviceId={service.id} />
+                </div>
+              </motion.div>
             </motion.div>
           ))}
         </div>

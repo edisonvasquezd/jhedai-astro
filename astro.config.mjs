@@ -14,7 +14,7 @@ export default defineConfig({
       external: ['node:buffer'],
     },
     build: {
-      sourcemap: true,
+      sourcemap: false,
       rollupOptions: {
         output: {
           manualChunks(id) {

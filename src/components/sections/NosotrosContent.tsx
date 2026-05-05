@@ -205,7 +205,7 @@ const teamMembers: TeamMember[] = [
     role: "Director de Operaciones",
     image: "/team/Julio_Hofflinger_JhedAI.png",
     description:
-      "Como Director de Operaciones, integra su experiencia en ingeniería y tecnologías de vanguardia para potuar nuestra eficiencia operativa. Su liderazgo en Computer Vision e IA, sumado a su enfoque en gobernanza ética, lo convierte en una pieza clave para asegurar que nuestra innovación técnica sea tan robusta como responsable.",
+      "Como Director de Operaciones, integra su experiencia en ingeniería y tecnologías de vanguardia para potenciar nuestra eficiencia operativa. Su liderazgo en Computer Vision e IA, sumado a su enfoque en gobernanza ética, lo convierte en una pieza clave para asegurar que nuestra innovación técnica sea tan robusta como responsable.",
     linkedin: "https://www.linkedin.com/in/julio-hofflinger/?locale=es",
   },
   {

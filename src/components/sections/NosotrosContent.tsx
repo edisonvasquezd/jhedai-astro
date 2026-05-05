@@ -197,7 +197,7 @@ const teamMembers: TeamMember[] = [
     role: "CEO & Fundador",
     image: "/team/edison-vasquez.jpg",
     description:
-      "Lidera la visión estratégica de JhedAI, impulsando la construcción del ecosistema de IA en Chile. Presidente de la Cámara Chilena de Inteligencia Artificial y promotor de la adopción responsable de IA en la región.",
+      "Fundador y guía estratégico. Edison es el encargado de trazar el rumbo de JhedAI en el despliegue de tecnología de frontera. Su liderazgo se centra en consolidar un ecosistema de IA que no conozca límites geográficos, inspirando al equipo a crear soluciones responsables que definan el estándar de innovación a gran escala.",
     linkedin: "https://www.linkedin.com/in/edisonvasquezd/",
   },
   {
@@ -205,7 +205,7 @@ const teamMembers: TeamMember[] = [
     role: "Director de Operaciones",
     image: "/team/Julio_Hofflinger_JhedAI.png",
     description:
-      "Ingeniero Forestal (U. de Chile) y diplomado en Hidrógeno Verde (PUC). Director de Operaciones y responsable de la vertical de Computer Vision. Socio Fundador de la Cámara Chilena de IA, integrante de las comisiones AGORA e I+D+i. Professional Scrum Master experto en gobernanza, colaboró en el diseño del estándar de «Auditor de Ética en IA» para ChileValora y el Ministerio de Ciencias.",
+      "Como Director de Operaciones, integra su experiencia en ingeniería y tecnologías de vanguardia para potenciar nuestra eficiencia operativa. Su liderazgo en Computer Vision e IA, sumado a su enfoque en gobernanza ética, lo convierte en una pieza clave para asegurar que nuestra innovación técnica sea tan robusta como responsable.",
     linkedin: "https://www.linkedin.com/in/julio-hofflinger/?locale=es",
   },
   {
@@ -213,7 +213,7 @@ const teamMembers: TeamMember[] = [
     role: "Director de Desarrollo",
     image: "/team/Hector_Vasquez_JhedAI.png",
     description:
-      "Director de Desarrollo y gestor en AWS. Especialista en React, Computer Vision y Prompt Engineering. Curioso de nacimiento y entusiasta de la vanguardia tecnológica, lidera la arquitectura de soluciones en la nube y el despliegue de sistemas de inteligencia artificial.",
+      "Como Líder de Desarrollo, es el arquitecto detrás de nuestras automatizaciones y el despliegue de sistemas de IA. Con una curiosidad natural que lo mantiene en constante aprendizaje, se especializa en entrenamiento de modelos de computer vision y automatizaciones de procesos. Su enfoque está en construir una estructura técnica sólida y funcional, guiando el crecimiento tecnológico del equipo con una mentalidad práctica y resolutiva.",
     linkedin: "",
   },
   {
@@ -221,7 +221,7 @@ const teamMembers: TeamMember[] = [
     role: "Director de Marketing",
     image: "/team/Ignacio_Rojas_JhedAI.png",
     description:
-      "Ingeniero civil industrial, estratega de marketing digital e innovación, y consultor de transformación basada en Inteligencia Artificial. Conecta las capacidades técnicas de JhedAI con las necesidades del mercado.",
+      "Como responsable de marketing digital, Ignacio se encarga de que nuestra innovación tenga un propósito claro. Gracias a su experiencia en marketing e IA, traduce las capacidades de nuestro equipo en herramientas que impulsan el crecimiento de quienes confían en nosotros, siendo la pieza clave que alinea la técnica con el impacto comercial.",
     linkedin: "https://www.linkedin.com/in/ignacio-rojas-ici/",
   },
 ];

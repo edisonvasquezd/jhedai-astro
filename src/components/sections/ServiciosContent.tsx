@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import {
   BarChart3,
@@ -15,7 +16,8 @@ import {
   Sparkles,
   TrendingUp,
 } from "lucide-react";
-import ServiceFlowDiagram from "../3d/ServiceFlowDiagram";
+
+const ServiceFlowDiagram = lazy(() => import("../3d/ServiceFlowDiagram"));
 
 interface Service {
   id: string;
@@ -299,7 +301,9 @@ const ServiciosContent = (): JSX.Element => {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-jhedai-primary/5 to-jhedai-secondary/5 rounded-3xl blur-2xl" />
                 <div className="relative glass-card p-5 lg:p-8 rounded-3xl border-2 border-jhedai-neutral/20 bg-white/80 backdrop-blur-sm">
-                  <ServiceFlowDiagram serviceId={service.id} />
+                  <Suspense fallback={<div className="h-48 bg-gray-100 animate-pulse rounded-lg" />}>
+                    <ServiceFlowDiagram serviceId={service.id} />
+                  </Suspense>
                 </div>
               </motion.div>
             </motion.div>

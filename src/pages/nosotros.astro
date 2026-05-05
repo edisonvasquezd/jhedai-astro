@@ -48,5 +48,5 @@ const aboutPageSchema = {
   og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
   schemas={[breadcrumbSchema, aboutPageSchema]}
 >
-  <NosotrosContent client:only="react" />
+  <NosotrosContent client:load />
 </SiteLayout>

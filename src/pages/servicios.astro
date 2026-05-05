@@ -109,5 +109,5 @@ const serviceSchema = {
   og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
   schemas={[breadcrumbSchema, serviceSchema]}
 >
-  <ServiciosContent client:only="react" />
+  <ServiciosContent client:load />
 </SiteLayout>

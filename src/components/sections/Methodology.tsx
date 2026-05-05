@@ -1,6 +1,7 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Target, Zap, ShieldCheck, Rocket } from "lucide-react";
+import { getDeviceTier } from "../../utils/deviceDetection";
 
 const steps = [
   {
@@ -31,14 +32,20 @@ const steps = [
 
 const MethodologyScene = lazy(() => import("../3d/MethodologyScene"));
 
-const Methodology = ({ isMobile = false }: { isMobile?: boolean }) => {
+const Methodology = ({ isMobile }: { isMobile?: boolean }) => {
+  const [isMobileDevice, setIsMobileDevice] = useState(isMobile ?? false);
+
+  useEffect(() => {
+    setIsMobileDevice(getDeviceTier() === "mobile");
+  }, []);
+
   return (
     <section
       id="methodology"
       className="py-32 relative overflow-hidden bg-white"
     >
       {/* 3D Background Flow — lazy loaded, desktop only */}
-      {!isMobile && (
+      {!isMobileDevice && (
         <div className="absolute inset-0 z-0 pointer-events-none opacity-50">
           <Suspense fallback={null}>
             <MethodologyScene />

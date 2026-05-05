@@ -1,5 +1,6 @@
 ---
-export const prerender = false;
+export const prerender = true;
+
 import SiteLayout from "../layouts/SiteLayout.astro";
 import Hero from "../components/sections/Hero";
 import ServiceGrid from "../components/sections/ServiceGrid";
@@ -13,8 +14,6 @@ import Blog from "../components/sections/Blog";
 import Assessment from "../components/sections/Assessment";
 import ParticleSphereLoader from "../components/3d/ParticleSphereLoader";
 
-const ua = Astro.request.headers.get("user-agent") ?? "";
-const isMobile = /Mobile|Android|iPhone|iPad/i.test(ua);
 const canonical = "https://jhedai.com";
 
 const organizationSchema = {
@@ -55,7 +54,7 @@ const breadcrumbSchema = {
   og={{ type: "website", image: "https://jhedai.com/logo-jhedai.png" }}
   schemas={[organizationSchema, websiteSchema, breadcrumbSchema]}
 >
-  <Hero client:visible isMobile={isMobile} />
+  <Hero client:visible />
   <ServiceGrid client:idle />
 
   <!-- Separador visual -->
@@ -75,13 +74,11 @@ const breadcrumbSchema = {
     </div>
   </div>
 
-  <Methodology client:idle isMobile={isMobile} />
+  <Methodology client:idle />
 
   <!-- Ecosistema con ParticleSphere 3D -->
   <div class="relative bg-jhedai-primary">
-    {!Astro.request.headers.get("user-agent")?.match(/Mobile|Android|iPhone|iPad/i) && (
-      <ParticleSphereLoader client:only="react" />
-    )}
+    <ParticleSphereLoader client:only="react" />
     <div class="relative z-10">
       <AgentesAutonomos client:visible />
       <div class="container"><div class="h-px bg-white/10"></div></div>

@@ -133,7 +133,7 @@ const externalPlatforms = [
     name: "Marketplace de Agentes",
     desc: "Explora nuestro catálogo de agentes autónomos listos para implementar",
     icon: <ShoppingCart size={28} />,
-    url: "https://agentes-marketplace-jhedai.pages.dev",
+    url: "https://agentes.jhedai.com/",
     badge: "Ecosistema",
     gradient: "from-blue-600 to-cyan-600",
   },

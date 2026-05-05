@@ -211,9 +211,9 @@ const teamMembers: TeamMember[] = [
   {
     name: "Héctor Vásquez",
     role: "Director de Desarrollo",
-    image: "/team/Hector_Vasquez_JhedAI.png",
+    image: "/team/Hector_Vasquez.png?v=8",
     description:
-      "Como Líder de Desarrollo, es el arquitecto detrás de nuestras automatizaciones y el despliegue de sistemas de IA. Con una curiosidad natural que lo mantiene en constante aprendizaje, se especializa en entrenamiento de modelos de computer vision y automatizaciones de procesos. Su enfoque está en construir una estructura técnica sólida y funcional, guiando el crecimiento tecnológico del equipo con una mentalidad práctica y resolutiva.",
+      "Como Líder de Desarrollo, es el arquitecto detrás de nuestras automatizaciones y el despliegue de sistemas de IA. Con una curiosidad natural que lo mantiene en constante aprendizaje, se especializa en entrenamiento de modelos de computer vision y automatizaciones de procesos.",
     linkedin: "",
   },
   {
@@ -223,6 +223,14 @@ const teamMembers: TeamMember[] = [
     description:
       "Como responsable de marketing digital, Ignacio se encarga de que nuestra innovación tenga un propósito claro. Gracias a su experiencia en marketing e IA, traduce las capacidades de nuestro equipo en herramientas que impulsan el crecimiento de quienes confían en nosotros, siendo la pieza clave que alinea la técnica con el impacto comercial.",
     linkedin: "https://www.linkedin.com/in/ignacio-rojas-ici/",
+  },
+  {
+    name: "Pablo Troncoso",
+    role: "Gerente Comercial",
+    image: "/team/Pablo_Troncoso.jpg",
+    description:
+      "Socio y estratega comercial con un amplio recorrido en la alta dirección y la innovación. Pablo aporta una visión empresarial estratégica a la expansión de JhedAI, aplicando su vasta experiencia en modelos de negocio y transformación digital para llevar nuestra IA a sectores clave. Su enfoque combina la eficiencia operativa con una mirada experta, orientada a crear soluciones que transforman la forma en que las industrias aprenden, trabajan y generan valor.",
+    linkedin: "",
   },
 ];
 

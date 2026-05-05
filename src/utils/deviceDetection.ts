@@ -20,11 +20,15 @@ export interface LODConfig {
  * const particleCount = BASE_COUNT * LOD_CONFIG[tier].particleCount;
  */
 export const getDeviceTier = (): DeviceTier => {
+  if (typeof window === "undefined" || typeof navigator === "undefined") {
+    return "high-desktop";
+  }
+
   const userAgent = navigator.userAgent;
   const isMobile = /iPhone|iPod|Android.*Mobile/i.test(userAgent);
-  const isTablet =
-    /iPad|Android(?!.*Mobile)/i.test(userAgent) && window.innerWidth >= 768;
   const width = window.innerWidth;
+  const isTablet =
+    /iPad|Android(?!.*Mobile)/i.test(userAgent) && width >= 768;
 
   // Mobile devices
   if (isMobile && !isTablet) {

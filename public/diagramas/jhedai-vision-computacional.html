@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JhedAI · Visión computacional</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --bg-card: #FFFFFF;
+    --text: #0A0A0A;
+    --text-muted: #6B6B6B;
+    --text-faint: #9A9A9A;
+    --border: rgba(10, 10, 10, 0.08);
+    --border-hover: rgba(123, 90, 168, 0.4);
+    --jhedai: #7B5AA8;
+    --jhedai-soft: rgba(123, 90, 168, 0.08);
+    --amber: #D97706;
+    --amber-soft: rgba(217, 119, 6, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 16px 12px;
+    transition: background 0.3s ease;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--jhedai);
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-bottom: 56px;
+    max-width: 600px;
+  }
+
+  .pipeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.85fr 1fr 1fr 0.95fr;
+    gap: 32px;
+    align-items: start;
+    margin-bottom: 48px;
+  }
+
+  .flow-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: visible;
+  }
+
+  .col {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .col-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+    padding-left: 2px;
+  }
+
+  .node {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(12px);
+    animation: rise 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .node:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px rgba(123, 90, 168, 0.25);
+  }
+
+  .node-input.d1 { animation-delay: 0.05s; }
+  .node-input.d2 { animation-delay: 0.10s; }
+  .node-input.d3 { animation-delay: 0.15s; }
+  .node-input.d4 { animation-delay: 0.20s; }
+  .node-train  { animation-delay: 0.35s; }
+  .node-model  { animation-delay: 0.55s; }
+  .node-out.o1 { animation-delay: 0.75s; }
+  .node-out.o2 { animation-delay: 0.82s; }
+  .node-out.o3 { animation-delay: 0.89s; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .node-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .node-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--jhedai);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .node-input { padding: 12px 16px; }
+  .node-input .node-name { font-size: 14px; margin: 0; }
+
+  .node-out {
+    border-left: 3px solid var(--amber);
+  }
+  .node-out .node-tag { color: var(--amber); }
+  .node-out::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--amber-soft);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .node-out:hover::before { opacity: 1; }
+
+  .node-out.o1 { animation: rise 0.6s forwards 0.75s, pulse-glow 3s ease-in-out infinite 1.5s; }
+  .node-out.o2 { animation: rise 0.6s forwards 0.82s, pulse-glow 3s ease-in-out infinite 1.7s; }
+  .node-out.o3 { animation: rise 0.6s forwards 0.89s, pulse-glow 3s ease-in-out infinite 1.9s; }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+    50% { box-shadow: 0 0 32px -4px rgba(217, 119, 6, 0.2); }
+  }
+
+  .chip {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  .flow-line {
+    stroke-dasharray: 6 6;
+    animation: flow 1.5s linear infinite;
+  }
+
+  .flow-line-grad {
+    stroke-dasharray: 6 4;
+    animation: flow 1s linear infinite;
+  }
+
+  @keyframes flow {
+    from { stroke-dashoffset: 12; }
+    to { stroke-dashoffset: 0; }
+  }
+
+  @media (max-width: 640px) {
+    .pipeline {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .flow-svg { display: none; }
+    h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="pipeline">
+
+    <svg class="flow-svg" preserveAspectRatio="none">
+      <defs>
+        <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#7B5AA8" stroke-width="1.5" stroke-linecap="round"/>
+        </marker>
+        <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+        </marker>
+        <linearGradient id="grad-flow" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#7B5AA8" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#D97706" stop-opacity="0.9"/>
+        </linearGradient>
+      </defs>
+      <g id="flow-paths"></g>
+    </svg>
+
+    <!-- Columna 1: Captura -->
+    <div class="col">
+      <p class="col-label">Captura</p>
+      <div class="node node-input d1"><div class="node-name">Cámaras</div></div>
+      <div class="node node-input d2"><div class="node-name">LiDAR</div></div>
+      <div class="node node-input d3"><div class="node-name">Drones</div></div>
+      <div class="node node-input d4"><div class="node-name">Sensores</div></div>
+    </div>
+
+    <!-- Columna 2: Inferencia -->
+    <div class="col" style="padding-top: 80px;">
+      <p class="col-label">Inferencia</p>
+      <div class="node node-train">
+        <div class="node-name">Pipeline CV</div>
+        <div class="node-tag">Frames → tensores</div>
+      </div>
+    </div>
+
+    <!-- Columna 3: Modelo -->
+    <div class="col" style="padding-top: 80px;">
+      <p class="col-label">Modelo</p>
+      <div class="node node-model">
+        <div class="node-name">Modelo edge</div>
+        <div class="node-tag">YOLO · ~ms</div>
+      </div>
+    </div>
+
+    <!-- Columna 4: Integración -->
+    <div class="col" style="padding-left: 72px;">
+      <p class="col-label">Integración</p>
+      <div class="node node-out o1">
+        <div class="node-name">Alerta en línea</div>
+        <div class="node-tag">SCADA · MES</div>
+        <span class="chip">PLC</span>
+      </div>
+      <div class="node node-out o2">
+        <div class="node-name">Trazabilidad</div>
+        <div class="node-tag">Lote · histórico</div>
+        <span class="chip">ERP</span>
+      </div>
+      <div class="node node-out o3">
+        <div class="node-name">Dashboard QA</div>
+        <div class="node-tag">KPIs calidad</div>
+        <span class="chip">Gerente</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function drawFlow() {
+    const pipeline = document.querySelector('.pipeline');
+    const svg = document.querySelector('.flow-svg');
+    const group = document.getElementById('flow-paths');
+    if (!pipeline || !svg || !group) return;
+
+    if (window.matchMedia('(max-width: 640px)').matches) {
+      group.innerHTML = '';
+      return;
+    }
+
+    const base = pipeline.getBoundingClientRect();
+    svg.setAttribute('viewBox', `0 0 ${base.width} ${base.height}`);
+
+    const anchor = (selector, side) => {
+      const el = document.querySelector(selector);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      const y = r.top - base.top + r.height / 2;
+      const x = side === 'right' ? r.right - base.left : r.left - base.left;
+      return { x, y };
+    };
+
+    const inputs = ['.node-input.d1', '.node-input.d2', '.node-input.d3', '.node-input.d4']
+      .map(s => anchor(s, 'right')).filter(Boolean);
+    const trainIn = anchor('.node-train', 'left');
+    const trainOut = anchor('.node-train', 'right');
+    const modelIn = anchor('.node-model', 'left');
+    const modelOut = anchor('.node-model', 'right');
+    const outputs = ['.node-out.o1', '.node-out.o2', '.node-out.o3']
+      .map(s => anchor(s, 'left')).filter(Boolean);
+
+    if (!trainIn || !trainOut || !modelIn || !modelOut) return;
+
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    const mk = (tag, attrs) => {
+      const node = document.createElementNS(SVGNS, tag);
+      for (const k in attrs) node.setAttribute(k, attrs[k]);
+      return node;
+    };
+
+    group.innerHTML = '';
+
+    inputs.forEach(p => {
+      const cx = (p.x + trainIn.x) / 2;
+      group.appendChild(mk('path', {
+        class: 'flow-line',
+        d: `M ${p.x} ${p.y} C ${cx} ${p.y}, ${cx} ${trainIn.y}, ${trainIn.x} ${trainIn.y}`,
+        fill: 'none',
+        stroke: '#7B5AA8',
+        'stroke-width': '1.2',
+        opacity: '0.5',
+        'marker-end': 'url(#arrow-purple)'
+      }));
+    });
+
+    group.appendChild(mk('line', {
+      class: 'flow-line',
+      x1: trainOut.x, y1: trainOut.y,
+      x2: modelIn.x,  y2: modelIn.y,
+      stroke: '#7B5AA8',
+      'stroke-width': '1.5',
+      opacity: '0.7',
+      'marker-end': 'url(#arrow-purple)'
+    }));
+
+    const OUT_GAP = 16;
+    const minOutX = Math.min(...outputs.map(o => o.x));
+    const junctionX = modelOut.x + (minOutX - modelOut.x) * 0.18;
+
+    group.appendChild(mk('line', {
+      class: 'flow-line-grad',
+      x1: modelOut.x, y1: modelOut.y,
+      x2: junctionX,  y2: modelOut.y,
+      stroke: 'url(#grad-flow)',
+      'stroke-width': '2'
+    }));
+
+    outputs.forEach(p => {
+      const targetX = p.x - OUT_GAP;
+      const dx = targetX - junctionX;
+      const c1x = junctionX + dx * 0.45;
+      const c2x = junctionX + dx * 0.55;
+      group.appendChild(mk('path', {
+        class: 'flow-line',
+        d: `M ${junctionX} ${modelOut.y} C ${c1x} ${modelOut.y}, ${c2x} ${p.y}, ${targetX} ${p.y}`,
+        fill: 'none',
+        stroke: '#D97706',
+        'stroke-width': '1.3',
+        opacity: '0.7',
+        'marker-end': 'url(#arrow-amber)'
+      }));
+    });
+  }
+
+  let _flowRaf;
+  const scheduleDraw = () => {
+    cancelAnimationFrame(_flowRaf);
+    _flowRaf = requestAnimationFrame(drawFlow);
+  };
+
+  window.addEventListener('load', scheduleDraw);
+  window.addEventListener('resize', scheduleDraw);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(scheduleDraw);
+  }
+</script>
+
+<script>
+  // sfd-auto-resize: notify parent of content height
+  function postSize(){var h=document.documentElement.scrollHeight;parent.postMessage({type:"sfd-resize",src:location.pathname.split("/").pop(),height:h},"*");}
+  var ro=new ResizeObserver(postSize);ro.observe(document.documentElement);
+  window.addEventListener("load",postSize);
+  window.addEventListener("resize",postSize);
+  setTimeout(postSize,300);setTimeout(postSize,800);setTimeout(postSize,1500);
+</script>
+</body>
+</html>

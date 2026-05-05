@@ -25,7 +25,6 @@ interface Service {
   benefits: string[];
   gradient: string;
   category: string;
-  flowType: "linear" | "branching" | "circular" | "hierarchical";
 }
 
 const services: Service[] = [
@@ -42,7 +41,6 @@ const services: Service[] = [
     ],
     gradient: "from-blue-500 via-cyan-500 to-blue-600",
     category: "Data",
-    flowType: "linear",
   },
   {
     id: "machine-learning",
@@ -57,7 +55,6 @@ const services: Service[] = [
     ],
     gradient: "from-purple-500 via-pink-500 to-red-500",
     category: "AI",
-    flowType: "branching",
   },
   {
     id: "business-intelligence",
@@ -72,7 +69,6 @@ const services: Service[] = [
     ],
     gradient: "from-green-500 via-emerald-500 to-teal-500",
     category: "Data",
-    flowType: "circular",
   },
   {
     id: "nlp",
@@ -87,7 +83,6 @@ const services: Service[] = [
     ],
     gradient: "from-orange-500 via-amber-500 to-yellow-500",
     category: "AI",
-    flowType: "linear",
   },
   {
     id: "computer-vision",
@@ -102,7 +97,6 @@ const services: Service[] = [
     ],
     gradient: "from-indigo-500 via-purple-500 to-pink-500",
     category: "AI",
-    flowType: "hierarchical",
   },
   {
     id: "automatizaciones",
@@ -117,7 +111,6 @@ const services: Service[] = [
     ],
     gradient: "from-cyan-500 via-blue-500 to-indigo-500",
     category: "Automation",
-    flowType: "branching",
   },
   {
     id: "data-science",
@@ -132,7 +125,6 @@ const services: Service[] = [
     ],
     gradient: "from-rose-500 via-red-500 to-orange-500",
     category: "Data",
-    flowType: "circular",
   },
 ];
 
@@ -245,86 +237,73 @@ const ServiciosContent = (): JSX.Element => {
           ))}
         </motion.div>
 
-        {/* Services - Zigzag Layout */}
-        <div className="mb-24 space-y-40">
-          {services.map((service, i) => {
-            const isLeft = i % 2 === 0;
-
-            return (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className={`flex flex-col ${
-                  isLeft ? "lg:flex-row" : "lg:flex-row-reverse"
-                } gap-16 items-start`}
-              >
-                {/* Content Side */}
-                <div className="lg:w-5/12 space-y-8">
-                  <div>
-                    <span className="inline-block text-xs font-bold tracking-widest text-jhedai-secondary mb-3 bg-jhedai-secondary/10 px-3 py-1 rounded-full">
-                      {service.category}
-                    </span>
-                    <div
-                      className={`flex items-center gap-4 mb-4 ${!isLeft ? "lg:flex-row-reverse" : ""}`}
-                    >
-                      <div
-                        className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-white shadow-xl shrink-0`}
-                      >
-                        {service.icon}
-                      </div>
-                      <h2 className="text-3xl lg:text-4xl font-bold text-jhedai-primary">
-                        {service.title}
-                      </h2>
-                    </div>
-                  </div>
-
-                  <p className="text-lg text-jhedai-primary/70 leading-relaxed">
-                    {service.desc}
-                  </p>
-
-                  <div className="space-y-4">
-                    {service.benefits.map((benefit, idx) => (
-                      <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, x: isLeft ? -20 : 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: idx * 0.1 + 0.3 }}
-                        className="flex items-start gap-3 group"
-                      >
-                        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-jhedai-secondary to-jhedai-primary shrink-0 group-hover:scale-150 transition-transform mt-2" />
-                        <span className="text-jhedai-primary/80 group-hover:text-jhedai-primary transition-colors leading-relaxed">
-                          {benefit}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Flow Diagram Side */}
-                <div className="lg:w-7/12 w-full">
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="relative"
+        {/* Services - Stacked Layout (title → diagram → text) */}
+        <div className="mb-24 space-y-32">
+          {services.map((service) => (
+            <motion.div
+              key={service.id}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="flex flex-col gap-10"
+            >
+              {/* Title block */}
+              <div className="space-y-5">
+                <span className="inline-block text-xs font-bold tracking-widest text-jhedai-secondary bg-jhedai-secondary/10 px-3 py-1 rounded-full">
+                  {service.category}
+                </span>
+                <div className="flex items-center gap-4">
+                  <div
+                    className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-white shadow-xl shrink-0`}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-jhedai-primary/5 to-jhedai-secondary/5 rounded-3xl blur-2xl" />
-                    <div className="relative glass-card p-12 lg:p-16 rounded-3xl border-2 border-jhedai-neutral/20 bg-white/80 backdrop-blur-sm min-h-[400px] flex items-center justify-center">
-                      <ServiceFlowDiagram
-                        type={service.flowType}
-                        gradient={service.gradient}
-                      />
-                    </div>
-                  </motion.div>
+                    {service.icon}
+                  </div>
+                  <h2 className="text-3xl lg:text-4xl font-bold text-jhedai-primary">
+                    {service.title}
+                  </h2>
+                </div>
+              </div>
+
+              {/* Flow Diagram - full width */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="relative w-full"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-jhedai-primary/5 to-jhedai-secondary/5 rounded-3xl blur-2xl" />
+                <div className="relative glass-card p-5 lg:p-8 rounded-3xl border-2 border-jhedai-neutral/20 bg-white/80 backdrop-blur-sm">
+                  <ServiceFlowDiagram serviceId={service.id} />
                 </div>
               </motion.div>
-            );
-          })}
+
+              {/* Description + benefits */}
+              <div className="grid lg:grid-cols-12 gap-8 items-start">
+                <p className="lg:col-span-5 text-lg text-jhedai-primary/70 leading-relaxed">
+                  {service.desc}
+                </p>
+                <div className="lg:col-span-7 grid sm:grid-cols-2 gap-x-6 gap-y-3">
+                  {service.benefits.map((benefit, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.08 + 0.2 }}
+                      className="flex items-start gap-3 group"
+                    >
+                      <div className="w-2 h-2 rounded-full bg-gradient-to-r from-jhedai-secondary to-jhedai-primary shrink-0 group-hover:scale-150 transition-transform mt-2" />
+                      <span className="text-jhedai-primary/80 group-hover:text-jhedai-primary transition-colors leading-relaxed">
+                        {benefit}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
         {/* External Platforms Section */}

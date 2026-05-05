@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState, useEffect } from "react";
+import type { ComponentType } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { getDeviceTier } from "../../utils/deviceDetection";
@@ -6,7 +7,7 @@ import { getDeviceTier } from "../../utils/deviceDetection";
 
 const HeroTorus = lazy(
   () =>
-    new Promise<{ default: React.ComponentType }>((resolve) => {
+    new Promise<{ default: ComponentType }>((resolve) => {
       if (typeof requestIdleCallback !== "undefined") {
         requestIdleCallback(() => resolve(import("../3d/HeroTorus")));
       } else {
@@ -67,8 +68,10 @@ const Hero = ({ isMobile }: { isMobile?: boolean }) => {
   const [isMobileDevice, setIsMobileDevice] = useState(isMobile ?? false);
 
   useEffect(() => {
-    setIsMobileDevice(getDeviceTier() === "mobile");
-  }, []);
+    if (isMobile === undefined) {
+      setIsMobileDevice(getDeviceTier() === "mobile");
+    }
+  }, [isMobile]);
 
   return (
     <section className="relative min-h-[90vh] flex items-center pt-20 bg-white">

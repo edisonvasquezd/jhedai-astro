@@ -36,8 +36,10 @@ const Methodology = ({ isMobile }: { isMobile?: boolean }) => {
   const [isMobileDevice, setIsMobileDevice] = useState(isMobile ?? false);
 
   useEffect(() => {
-    setIsMobileDevice(getDeviceTier() === "mobile");
-  }, []);
+    if (isMobile === undefined) {
+      setIsMobileDevice(getDeviceTier() === "mobile");
+    }
+  }, [isMobile]);
 
   return (
     <section

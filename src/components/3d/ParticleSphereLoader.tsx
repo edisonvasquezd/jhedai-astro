@@ -10,14 +10,18 @@ const ParticleSphereLoader = () => {
     const tier = getDeviceTier();
     if (tier === "mobile") return;
 
-    const hasRIC = "requestIdleCallback" in window;
-    const id = hasRIC
-      ? requestIdleCallback(() => setMounted(true), { timeout: 3000 })
-      : setTimeout(() => setMounted(true), 1500);
+    let ricId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    if ("requestIdleCallback" in window) {
+      ricId = requestIdleCallback(() => setMounted(true), { timeout: 3000 });
+    } else {
+      timeoutId = setTimeout(() => setMounted(true), 1500);
+    }
 
     return () => {
-      if (hasRIC) cancelIdleCallback(id as number);
-      else clearTimeout(id as number);
+      if (ricId !== undefined) cancelIdleCallback(ricId);
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
     };
   }, []);
 

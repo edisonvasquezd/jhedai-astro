@@ -1,45 +1,23 @@
 ---
-export const prerender = false;
+export const prerender = true;
 
 import BlogLayout from "../../layouts/BlogLayout.astro";
 import BlogCard from "../../components/BlogCard.astro";
-import Pagination from "../../components/Pagination.astro";
 import { getPosts, getCategories, getImageUrl } from "../../lib/api";
 
-const page = Number(Astro.url.searchParams.get("page") || "1");
-const category = Astro.url.searchParams.get("category") || "";
-
-const [{ data: posts, total, totalPages }, categories] = await Promise.all([
-  getPosts(page, 9, category),
+const [{ data: posts }, categories] = await Promise.all([
+  getPosts(1, 100),
   getCategories(),
 ]);
 
-const featuredPost = page === 1 && !category ? posts.find((p) => p.featured) || null : null;
+const featuredPost = posts.find((p) => p.featured) || null;
 const gridPosts = featuredPost ? posts.filter((p) => p.slug !== featuredPost.slug) : posts;
-
-const buildUrl = (p: number) => {
-  const params = new URLSearchParams();
-  if (p > 1) params.set("page", String(p));
-  if (category) params.set("category", category);
-  return `/blog${params.toString() ? `?${params}` : ""}`;
-};
-
-const buildCategoryUrl = (cat: string) => {
-  const params = new URLSearchParams();
-  if (cat) params.set("category", cat);
-  return `/blog${params.toString() ? `?${params}` : ""}`;
-};
-
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, s-maxage=900, stale-while-revalidate=900",
-);
 ---
 
 <BlogLayout
-  title={category ? `Blog — ${category} | JhedAI` : "Blog — Insights de IA Industrial | JhedAI"}
+  title="Blog — Insights de IA Industrial | JhedAI"
   description="Artículos, análisis y casos de estudio sobre inteligencia artificial aplicada a la industria chilena."
-  canonical={`https://jhedai.com/blog${category ? `?category=${encodeURIComponent(category)}` : ""}`}
+  canonical="https://jhedai.com/blog"
 >
   <Fragment slot="head">
     {featuredPost?.featuredImage && (
@@ -60,7 +38,7 @@ Astro.response.headers.set(
       <div class="text-center mb-12">
         <p class="text-[14px] text-[#3D6B8A] font-bold tracking-widest mb-4">BLOG</p>
         <h1 class="text-3xl lg:text-4xl font-bold text-jhedai-primary mb-4">
-          {category ? category : "Insights de IA Industrial"}
+          Insights de IA Industrial
         </h1>
         <p class="text-[#3D6B8A] text-[16px] max-w-2xl mx-auto leading-relaxed">
           Artículos, análisis y casos de estudio sobre inteligencia artificial aplicada a la industria chilena.
@@ -68,30 +46,22 @@ Astro.response.headers.set(
       </div>
 
       <!-- Category filters centrados -->
-      <div class="flex flex-wrap justify-center gap-3 mb-12">
-        <a
-          href="/blog"
-          class:list={[
-            "px-4 py-2 rounded-full text-[14px] font-medium transition-all",
-            !category
-              ? "bg-jhedai-primary text-white"
-              : "bg-jhedai-primary/5 text-[#3D6B8A] hover:bg-jhedai-primary/10",
-          ]}
+      <div class="flex flex-wrap justify-center gap-3 mb-12" id="category-filters">
+        <button
+          data-cat=""
+          class="px-4 py-2 rounded-full text-[14px] font-medium transition-all bg-jhedai-primary text-white"
+          onclick="filterCat(this, '')"
         >
           Todos
-        </a>
+        </button>
         {categories.map((cat) => (
-          <a
-            href={buildCategoryUrl(cat)}
-            class:list={[
-              "px-4 py-2 rounded-full text-[14px] font-medium transition-all",
-              category === cat
-                ? "bg-jhedai-primary text-white"
-                : "bg-jhedai-primary/5 text-[#3D6B8A] hover:bg-jhedai-primary/10",
-            ]}
+          <button
+            data-cat={cat}
+            class="px-4 py-2 rounded-full text-[14px] font-medium transition-all bg-jhedai-primary/5 text-[#3D6B8A] hover:bg-jhedai-primary/10"
+            onclick={`filterCat(this, '${cat}')`}
           >
             {cat}
-          </a>
+          </button>
         ))}
       </div>
 
@@ -146,9 +116,11 @@ Astro.response.headers.set(
 
       <!-- Grid de cards -->
       {posts.length > 0 ? (
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="posts-grid">
           {gridPosts.map((post, i) => (
-            <BlogCard post={post} index={i} />
+            <div data-category={post.category}>
+              <BlogCard post={post} index={i} />
+            </div>
           ))}
         </div>
       ) : (
@@ -157,9 +129,22 @@ Astro.response.headers.set(
         </div>
       )}
 
-      <!-- Pagination -->
-      <Pagination page={page} totalPages={totalPages} buildUrl={buildUrl} />
-
     </div>
   </div>
+
+  <script>
+    function filterCat(btn: HTMLButtonElement, cat: string) {
+      document.querySelectorAll('#category-filters button').forEach((b) => {
+        (b as HTMLButtonElement).classList.remove('bg-jhedai-primary', 'text-white');
+        (b as HTMLButtonElement).classList.add('bg-jhedai-primary/5', 'text-[#3D6B8A]');
+      });
+      btn.classList.add('bg-jhedai-primary', 'text-white');
+      btn.classList.remove('bg-jhedai-primary/5', 'text-[#3D6B8A]');
+
+      document.querySelectorAll<HTMLElement>('#posts-grid [data-category]').forEach((el) => {
+        el.style.display = !cat || el.dataset.category === cat ? '' : 'none';
+      });
+    }
+    (window as Window & { filterCat: typeof filterCat }).filterCat = filterCat;
+  </script>
 </BlogLayout>

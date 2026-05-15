@@ -1,11 +1,13 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
+import type { ComponentType } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { getDeviceTier } from "../../utils/deviceDetection";
 
 
 const HeroTorus = lazy(
   () =>
-    new Promise<{ default: React.ComponentType }>((resolve) => {
+    new Promise<{ default: ComponentType }>((resolve) => {
       if (typeof requestIdleCallback !== "undefined") {
         requestIdleCallback(() => resolve(import("../3d/HeroTorus")));
       } else {
@@ -62,7 +64,15 @@ const partners: { name: string; logo: string; size?: "lg" | "xl" }[] = [
   { name: "Min Ciencia", logo: "/logos-partners/MIN-CIENCIA.webp", size: "lg" },
 ];
 
-const Hero = ({ isMobile = false }: { isMobile?: boolean }) => {
+const Hero = ({ isMobile }: { isMobile?: boolean }) => {
+  const [isMobileDevice, setIsMobileDevice] = useState(isMobile ?? false);
+
+  useEffect(() => {
+    if (isMobile === undefined) {
+      setIsMobileDevice(getDeviceTier() === "mobile");
+    }
+  }, [isMobile]);
+
   return (
     <section className="relative min-h-[90vh] flex items-center pt-20 bg-white">
       {/* Ambient background elements */}
@@ -82,7 +92,7 @@ const Hero = ({ isMobile = false }: { isMobile?: boolean }) => {
         transition={{ duration: 1.2, delay: 0.8 }}
         className="absolute inset-0 lg:left-[40%] opacity-30 lg:opacity-100 pointer-events-none z-[1] overflow-visible"
       >
-        {isMobile ? (
+        {isMobileDevice ? (
           <div className="hero-mobile-fallback" />
         ) : (
           <Suspense fallback={null}>
@@ -160,7 +170,7 @@ const Hero = ({ isMobile = false }: { isMobile?: boolean }) => {
           className="mt-20 lg:mt-16 pt-12"
         >
           <p className="text-[14px] font-semibold text-jhedai-primary/40 mb-6 tracking-wide text-center lg:text-left">
-            Empresas que potencian su operación con JhedAi
+            Empresas que confían en JhedAI
           </p>
           <div className="relative overflow-hidden">
             {/* Fade edges */}

@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { criticalCSSIntegration } from './src/integrations/critical-css.mjs';
 
 export default defineConfig({
+  output: 'static',
   adapter: cloudflare(),
   integrations: [react(), criticalCSSIntegration()],
   vite: {

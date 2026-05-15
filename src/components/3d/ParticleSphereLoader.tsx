@@ -1,4 +1,5 @@
 import { useEffect, useState, lazy, Suspense } from "react";
+import { getDeviceTier } from "../../utils/deviceDetection";
 
 const ParticleSphere = lazy(() => import("./ParticleSphere"));
 
@@ -6,14 +7,21 @@ const ParticleSphereLoader = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // B: defer Three.js import until browser is idle after LCP
-    const id = requestIdleCallback
-      ? requestIdleCallback(() => setMounted(true), { timeout: 3000 })
-      : setTimeout(() => setMounted(true), 1500);
+    const tier = getDeviceTier();
+    if (tier === "mobile") return;
+
+    let ricId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    if ("requestIdleCallback" in window) {
+      ricId = requestIdleCallback(() => setMounted(true), { timeout: 3000 });
+    } else {
+      timeoutId = setTimeout(() => setMounted(true), 1500);
+    }
 
     return () => {
-      if (requestIdleCallback) cancelIdleCallback(id as number);
-      else clearTimeout(id as number);
+      if (ricId !== undefined) cancelIdleCallback(ricId);
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
     };
   }, []);
 

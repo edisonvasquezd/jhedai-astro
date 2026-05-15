@@ -30,9 +30,9 @@ interface Milestone {
 const milestones: Milestone[] = [
   {
     date: "Marzo 2024",
-    title: "Constitución Legal de JhedAI",
+    title: "Nacimiento de JhedAI",
     description:
-      "Se constituyó legalmente JhedAI SpA, marcando el inicio formal de operaciones como consultora especializada en IA aplicada.",
+      "Nace JhedAI SpA, marcando el inicio formal de operaciones como consultora especializada en IA aplicada.",
     icon: <Building2 size={20} />,
     category: "Fundación",
     position: "right",
@@ -209,14 +209,6 @@ const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/julio-hofflinger/?locale=es",
   },
   {
-    name: "Héctor Vásquez",
-    role: "Director de Desarrollo",
-    image: "/team/Hector_Vasquez.png?v=8",
-    description:
-      "Como Líder de Desarrollo, es el arquitecto detrás de nuestras automatizaciones y el despliegue de sistemas de IA. Con una curiosidad natural que lo mantiene en constante aprendizaje, se especializa en entrenamiento de modelos de computer vision y automatizaciones de procesos.",
-    linkedin: "",
-  },
-  {
     name: "Ignacio Rojas",
     role: "Director de Marketing",
     image: "/team/Ignacio_Rojas_JhedAI.png",
@@ -226,13 +218,91 @@ const teamMembers: TeamMember[] = [
   },
   {
     name: "Pablo Troncoso",
-    role: "Gerente Comercial",
+    role: "Director Comercial",
     image: "/team/Pablo_Troncoso.jpg",
     description:
       "Socio y estratega comercial con un amplio recorrido en la alta dirección y la innovación. Pablo aporta una visión empresarial estratégica a la expansión de JhedAI, aplicando su vasta experiencia en modelos de negocio y transformación digital para llevar nuestra IA a sectores clave. Su enfoque combina la eficiencia operativa con una mirada experta, orientada a crear soluciones que transforman la forma en que las industrias aprenden, trabajan y generan valor.",
     linkedin: "",
   },
+  {
+    name: "Héctor Vásquez",
+    role: "Director de Desarrollo",
+    image: "/team/Hector_Vasquez.png?v=8",
+    description:
+      "Como Líder de Desarrollo, es el arquitecto detrás de nuestras automatizaciones y el despliegue de sistemas de IA. Con una curiosidad natural que lo mantiene en constante aprendizaje, se especializa en entrenamiento de modelos de computer vision y automatizaciones de procesos.",
+    linkedin: "",
+  },
 ];
+
+const TeamCard = ({ member, index }: { member: TeamMember; index: number }) => {
+  const CardContent = (
+    <div className="bg-white h-full rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-jhedai-neutral/20 hover:border-jhedai-secondary/40 flex flex-col">
+      <div className="relative w-full h-52 overflow-hidden bg-gradient-to-br from-jhedai-primary to-jhedai-secondary">
+        <picture>
+          <source
+            srcSet={member.image.replace(/\.(png|jpg|jpeg)$/i, ".webp")}
+            type="image/webp"
+          />
+          <img
+            src={member.image}
+            alt={member.name}
+            width={400}
+            height={208}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.style.display = "none";
+              const container = target.closest("picture")?.parentElement;
+              if (container) {
+                container.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#003865,#00A9E0);color:white;font-size:3rem;font-weight:700">${member.name.charAt(0)}</div>`;
+              }
+            }}
+          />
+        </picture>
+        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent" />
+      </div>
+
+      <div className="px-5 pt-3 pb-6 flex flex-col flex-1">
+        <div className="mb-3">
+          <h3 className="text-base font-bold text-jhedai-primary leading-tight group-hover:text-jhedai-secondary transition-colors">
+            {member.name}
+          </h3>
+          <span className="inline-block mt-1.5 text-[12px] font-bold text-jhedai-secondary bg-jhedai-secondary/10 px-2.5 py-0.5 rounded-full">
+            {member.role}
+          </span>
+        </div>
+        <p className="text-[12px] text-jhedai-primary/60 leading-relaxed flex-1">
+          {member.description}
+        </p>
+      </div>
+    </div>
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ delay: index * 0.12, duration: 0.55, ease: "easeOut" }}
+      className="group h-full"
+    >
+      {member.linkedin ? (
+        <a
+          href={member.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block h-full no-underline"
+        >
+          {CardContent}
+        </a>
+      ) : (
+        CardContent
+      )}
+    </motion.div>
+  );
+};
 
 const NosotrosContent = () => {
   return (
@@ -516,80 +586,18 @@ const NosotrosContent = () => {
           </p>
         </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-6">
-          {teamMembers.map((member, i) => {
-            const CardContent = (
-              <div className="bg-white h-full rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-jhedai-neutral/20 hover:border-jhedai-secondary/40 flex flex-col">
-                {/* Photo area */}
-                <div className="relative w-full h-72 overflow-hidden bg-gradient-to-br from-jhedai-primary to-jhedai-secondary">
-                  <picture>
-                    <source
-                      srcSet={member.image.replace(/\.(png|jpg|jpeg)$/i, ".webp")}
-                      type="image/webp"
-                    />
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      width={400}
-                      height={288}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = "none";
-                        const container = target.closest("picture")?.parentElement;
-                        if (container) {
-                          container.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#003865,#00A9E0);color:white;font-size:3rem;font-weight:700">${member.name.charAt(0)}</div>`;
-                        }
-                      }}
-                    />
-                  </picture>
-                  {/* Subtle bottom edge */}
-                  <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent" />
-                </div>
+        {/* First row: 4 members */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          {teamMembers.slice(0, 4).map((member, i) => (
+            <TeamCard key={i} member={member} index={i} />
+          ))}
+        </div>
 
-                {/* Info */}
-                <div className="px-5 pt-3 pb-6 flex flex-col flex-1">
-                  <div className="mb-3">
-                    <h3 className="text-base font-bold text-jhedai-primary leading-tight group-hover:text-jhedai-secondary transition-colors">
-                      {member.name}
-                    </h3>
-                    <span className="inline-block mt-1.5 text-[12px] font-bold text-jhedai-secondary bg-jhedai-secondary/10 px-2.5 py-0.5 rounded-full">
-                      {member.role}
-                    </span>
-                  </div>
-                  <p className="text-[12px] text-jhedai-primary/60 leading-relaxed flex-1">
-                    {member.description}
-                  </p>
-                </div>
-              </div>
-            );
-
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ delay: i * 0.12, duration: 0.55, ease: "easeOut" }}
-                className="group w-full sm:w-[calc(50%-12px)] lg:w-[calc(20%-19.2px)]"
-              >
-                {member.linkedin ? (
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block h-full no-underline"
-                  >
-                    {CardContent}
-                  </a>
-                ) : (
-                  CardContent
-                )}
-              </motion.div>
-            );
-          })}
+        {/* Second row: Héctor centered */}
+        <div className="flex justify-center">
+          <div className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)]">
+            <TeamCard member={teamMembers[4]} index={4} />
+          </div>
         </div>
       </div>
 

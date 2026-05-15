@@ -17,7 +17,7 @@ const borderColors: Record<string, string> = {
 const items = [
   {
     name: "Certificación ChileValora",
-    desc: "Certificación oficial en 5 perfiles de IA reconocidos por el Estado. Primera empresa certificadora en Chile.",
+    desc: "Certificación oficial en 5 perfiles de IA reconocidos por el Estado.",
     level: "Certificación",
     audience: "Profesionales",
   },

@@ -170,7 +170,7 @@ const Hero = ({ isMobile }: { isMobile?: boolean }) => {
           className="mt-20 lg:mt-16 pt-12"
         >
           <p className="text-[14px] font-semibold text-jhedai-primary/40 mb-6 tracking-wide text-center lg:text-left">
-            Empresas que potencian su operación con JhedAi
+            Empresas que confían en JhedAI
           </p>
           <div className="relative overflow-hidden">
             {/* Fade edges */}

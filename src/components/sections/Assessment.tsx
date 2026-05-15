@@ -49,11 +49,8 @@ const Assessment = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="text-white/70 text-lg max-w-2xl mx-auto mb-12 leading-relaxed"
+              className="text-white/70 text-lg max-w-2xl mx-auto mb-12 leading-relaxed hidden"
             >
-              Realiza nuestro Assessment de Madurez de IA y obtén un diagnóstico
-              profesional sobre tu arquitectura de datos y potencial de
-              innovación.
             </motion.p>
 
             <motion.div
@@ -63,13 +60,13 @@ const Assessment = () => {
               transition={{ delay: 0.5 }}
               className="flex flex-wrap justify-center gap-4"
             >
-              <button className="group bg-jhedai-primary text-white px-8 py-3.5 rounded-lg font-bold text-[16px] hover:brightness-125 transition-all inline-flex items-center gap-2 shadow-xl shadow-jhedai-primary/30">
+              <a href="/assessment" className="group bg-jhedai-primary text-white px-8 py-3.5 rounded-lg font-bold text-[16px] hover:brightness-125 transition-all inline-flex items-center gap-2 shadow-xl shadow-jhedai-primary/30">
                 Iniciar Assessment
                 <ArrowRight
                   size={18}
                   className="group-hover:translate-x-1 transition-transform"
                 />
-              </button>
+              </a>
               <button className="px-8 py-3.5 rounded-lg font-bold text-[16px] border border-white/20 text-white hover:bg-white/10 transition-all">
                 Hablar con un consultor
               </button>

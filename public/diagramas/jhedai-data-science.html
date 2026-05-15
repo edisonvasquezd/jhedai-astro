@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -7,24 +7,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #FAFAF7;
+    --bg: transparent;
     --bg-card: #FFFFFF;
     --text: #0A0A0A;
     --text-muted: #6B6B6B;
     --text-faint: #9A9A9A;
-    --border: rgba(10, 10, 10, 0.08);
-    --border-hover: rgba(123, 90, 168, 0.4);
-    --jhedai: #7B5AA8;
-    --jhedai-soft: rgba(123, 90, 168, 0.08);
-    --amber: #D97706;
-    --amber-soft: rgba(217, 119, 6, 0.08);
+    --border: rgba(0, 56, 101, 0.22);
+    --border-hover: rgba(0, 169, 224, 0.5);
+    --jhedai: #00A9E0;
+    --jhedai-soft: rgba(0, 169, 224, 0.08);
+    --accent: #FF585D;
+    --accent-soft: rgba(255, 88, 93, 0.08);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: 'Inter', sans-serif;
-    background: var(--bg);
+    background: transparent;
     color: var(--text);
     min-height: 100vh;
     padding: 16px 12px;
@@ -111,7 +111,7 @@
   .node:hover {
     border-color: var(--border-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px -8px rgba(123, 90, 168, 0.25);
+    box-shadow: 0 8px 24px -8px rgba(0, 169, 224, 0.3);
   }
 
   .node-input.d1 { animation-delay: 0.05s; }
@@ -147,16 +147,21 @@
 
   .node-input { padding: 12px 16px; }
   .node-input .node-name { font-size: 14px; margin: 0; }
+  .node-input { border-color: rgba(0, 56, 101, 0.3); }
+  .node-train { border-color: rgba(0, 169, 224, 0.5); }
+  .node-train .node-tag { color: #00A9E0; }
+  .node-model { border-color: rgba(0, 169, 224, 0.5); }
+  .node-model .node-tag { color: #00A9E0; }
 
   .node-out {
-    border-left: 3px solid var(--amber);
+    border-left: 3px solid var(--accent);
   }
-  .node-out .node-tag { color: var(--amber); }
+  .node-out .node-tag { color: var(--accent); }
   .node-out::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--amber-soft);
+    background: var(--accent-soft);
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
@@ -168,8 +173,8 @@
   .node-out.o3 { animation: rise 0.6s forwards 0.89s, pulse-glow 3s ease-in-out infinite 1.9s; }
 
   @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
-    50% { box-shadow: 0 0 32px -4px rgba(217, 119, 6, 0.2); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 88, 93, 0); }
+    50% { box-shadow: 0 0 32px -4px rgba(255, 88, 93, 0.25); }
   }
 
   .chip {
@@ -181,7 +186,7 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--text-faint);
-    background: var(--bg);
+    background: transparent;
     border: 1px solid var(--border);
     padding: 3px 8px;
     border-radius: 4px;
@@ -221,14 +226,14 @@
     <svg class="flow-svg" preserveAspectRatio="none">
       <defs>
         <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-          <path d="M2 1L8 5L2 9" fill="none" stroke="#7B5AA8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#00A9E0" stroke-width="1.5" stroke-linecap="round"/>
         </marker>
         <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-          <path d="M2 1L8 5L2 9" fill="none" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#FF585D" stroke-width="1.5" stroke-linecap="round"/>
         </marker>
         <linearGradient id="grad-flow" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stop-color="#7B5AA8" stop-opacity="0.7"/>
-          <stop offset="100%" stop-color="#D97706" stop-opacity="0.9"/>
+          <stop offset="0%" stop-color="#00A9E0" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#FF585D" stop-opacity="0.9"/>
         </linearGradient>
       </defs>
       <g id="flow-paths"></g>
@@ -329,7 +334,7 @@
         class: 'flow-line',
         d: `M ${p.x} ${p.y} C ${cx} ${p.y}, ${cx} ${trainIn.y}, ${trainIn.x} ${trainIn.y}`,
         fill: 'none',
-        stroke: '#7B5AA8',
+        stroke: '#00A9E0',
         'stroke-width': '1.2',
         opacity: '0.5',
         'marker-end': 'url(#arrow-purple)'
@@ -340,7 +345,7 @@
       class: 'flow-line',
       x1: trainOut.x, y1: trainOut.y,
       x2: modelIn.x,  y2: modelIn.y,
-      stroke: '#7B5AA8',
+      stroke: '#00A9E0',
       'stroke-width': '1.5',
       opacity: '0.7',
       'marker-end': 'url(#arrow-purple)'
@@ -367,7 +372,7 @@
         class: 'flow-line',
         d: `M ${junctionX} ${modelOut.y} C ${c1x} ${modelOut.y}, ${c2x} ${p.y}, ${targetX} ${p.y}`,
         fill: 'none',
-        stroke: '#D97706',
+        stroke: '#FF585D',
         'stroke-width': '1.3',
         opacity: '0.7',
         'marker-end': 'url(#arrow-amber)'

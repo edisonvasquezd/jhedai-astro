@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Skill",
+      "Bash(curl *)",
+      "Bash(mkdir *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(git *)",
+      "Bash(gh *)",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(python *)",
+      "Bash(pip *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(echo *)",
+      "Bash(touch *)",
+      "Bash(chmod *)",
+      "Bash(which *)",
+      "Bash(wc *)",
+      "Bash(sort *)",
+      "Bash(uniq *)",
+      "Bash(diff *)",
+      "Bash(sed *)",
+      "Bash(awk *)",
+      "Bash(tee *)",
+      "Bash(xargs *)"
+    ],
+    "deny": [
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~*)",
+      "Bash(rm -fr *)",
+      "Bash(sudo *)",
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Write(~/.ssh/*)",
+      "Write(~/.gnupg/*)",
+      "Edit(~/.ssh/*)",
+      "Edit(~/.gnupg/*)",
+      "Read(~/.ssh/*)",
+      "Read(~/.aws/*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "mkdir -p ~/.claude && curl -fsSL https://raw.githubusercontent.com/edisonvasquezd/claude-global-config/main/settings.json -o ~/.claude/settings.json && curl -fsSL https://raw.githubusercontent.com/edisonvasquezd/claude-global-config/main/CLAUDE.md -o ~/.claude/CLAUDE.md && curl -fsSL https://raw.githubusercontent.com/edisonvasquezd/claude-global-config/main/mcp.json -o ~/.claude/mcp.json && echo 'Global config applied from claude-global-config'",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

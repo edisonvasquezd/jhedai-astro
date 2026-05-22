@@ -193,12 +193,12 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
-    name: "Edison Vásquez",
-    role: "CEO & Fundador",
-    image: "/team/edison-vasquez.jpg",
+    name: "Héctor Vásquez",
+    role: "Líder de Desarrollo",
+    image: "/team/Hector_Vasquez.png?v=8",
     description:
-      "Fundador y guía estratégico. Edison es el encargado de trazar el rumbo de JhedAI en el despliegue de tecnología de frontera. Su liderazgo se centra en consolidar un ecosistema de IA que no conozca límites geográficos, inspirando al equipo a crear soluciones responsables que definan el estándar de innovación a gran escala.",
-    linkedin: "https://www.linkedin.com/in/edisonvasquezd/",
+      "Como Líder de Desarrollo, es el arquitecto detrás de nuestras automatizaciones y el despliegue de sistemas de IA. Con una curiosidad natural que lo mantiene en constante aprendizaje, se especializa en entrenamiento de modelos de computer vision y automatizaciones de procesos.",
+    linkedin: "",
   },
   {
     name: "Julio Hofflinger",
@@ -207,6 +207,14 @@ const teamMembers: TeamMember[] = [
     description:
       "Como Director de Operaciones, integra su experiencia en ingeniería y tecnologías de vanguardia para potenciar nuestra eficiencia operativa. Su liderazgo en Computer Vision e IA, sumado a su enfoque en gobernanza ética, lo convierte en una pieza clave para asegurar que nuestra innovación técnica sea tan robusta como responsable.",
     linkedin: "https://www.linkedin.com/in/julio-hofflinger/?locale=es",
+  },
+  {
+    name: "Edison Vásquez",
+    role: "CEO & Fundador",
+    image: "/team/edison-vasquez.jpg",
+    description:
+      "Fundador y guía estratégico. Edison es el encargado de trazar el rumbo de JhedAI en el despliegue de tecnología de frontera. Su liderazgo se centra en consolidar un ecosistema de IA que no conozca límites geográficos, inspirando al equipo a crear soluciones responsables que definan el estándar de innovación a gran escala.",
+    linkedin: "https://www.linkedin.com/in/edisonvasquezd/",
   },
   {
     name: "Ignacio Rojas",
@@ -222,14 +230,6 @@ const teamMembers: TeamMember[] = [
     image: "/team/Pablo_Troncoso.jpg",
     description:
       "Socio y estratega comercial con un amplio recorrido en la alta dirección y la innovación. Pablo aporta una visión empresarial estratégica a la expansión de JhedAI, aplicando su vasta experiencia en modelos de negocio y transformación digital para llevar nuestra IA a sectores clave. Su enfoque combina la eficiencia operativa con una mirada experta, orientada a crear soluciones que transforman la forma en que las industrias aprenden, trabajan y generan valor.",
-    linkedin: "",
-  },
-  {
-    name: "Héctor Vásquez",
-    role: "Director de Desarrollo",
-    image: "/team/Hector_Vasquez.png?v=8",
-    description:
-      "Como Líder de Desarrollo, es el arquitecto detrás de nuestras automatizaciones y el despliegue de sistemas de IA. Con una curiosidad natural que lo mantiene en constante aprendizaje, se especializa en entrenamiento de modelos de computer vision y automatizaciones de procesos.",
     linkedin: "",
   },
 ];

@@ -169,9 +169,6 @@ const Hero = ({ isMobile }: { isMobile?: boolean }) => {
           transition={{ delay: 1.4, duration: 1 }}
           className="mt-20 lg:mt-16 pt-12"
         >
-          <p className="text-[14px] font-semibold text-jhedai-primary/40 mb-6 tracking-wide text-center lg:text-left">
-            Empresas que confían en JhedAI
-          </p>
           <div className="relative overflow-hidden">
             {/* Fade edges */}
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />

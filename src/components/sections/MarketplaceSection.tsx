@@ -39,9 +39,9 @@ const MarketplaceSection = ({
             <p className="text-jhedai-primary/60 text-[16px] leading-relaxed mb-8">
               {description}
             </p>
-            <button className="boton-secundario text-[14px] inline-flex items-center gap-2">
+            <a href="https://academy.jhedai.com/" target="_blank" rel="noopener noreferrer" className="boton-secundario text-[14px] inline-flex items-center gap-2">
               Ver catálogo completo <ArrowUpRight size={16} />
-            </button>
+            </a>
           </motion.div>
 
           {/* Right - Cards */}

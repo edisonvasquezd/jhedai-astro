@@ -193,22 +193,6 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
-    name: "Héctor Vásquez",
-    role: "Líder de Desarrollo",
-    image: "/team/Hector_Vasquez.png?v=8",
-    description:
-      "Como Líder de Desarrollo, es el arquitecto detrás de nuestras automatizaciones y el despliegue de sistemas de IA. Con una curiosidad natural que lo mantiene en constante aprendizaje, se especializa en entrenamiento de modelos de computer vision y automatizaciones de procesos.",
-    linkedin: "",
-  },
-  {
-    name: "Julio Hofflinger",
-    role: "Director de Operaciones",
-    image: "/team/Julio_Hofflinger_JhedAI.png",
-    description:
-      "Como Director de Operaciones, integra su experiencia en ingeniería y tecnologías de vanguardia para potenciar nuestra eficiencia operativa. Su liderazgo en Computer Vision e IA, sumado a su enfoque en gobernanza ética, lo convierte en una pieza clave para asegurar que nuestra innovación técnica sea tan robusta como responsable.",
-    linkedin: "https://www.linkedin.com/in/julio-hofflinger/?locale=es",
-  },
-  {
     name: "Edison Vásquez",
     role: "CEO & Fundador",
     image: "/team/edison-vasquez.jpg",
@@ -225,11 +209,27 @@ const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/ignacio-rojas-ici/",
   },
   {
+    name: "Julio Hofflinger",
+    role: "Director de Operaciones",
+    image: "/team/Julio_Hofflinger_JhedAI.png",
+    description:
+      "Como Director de Operaciones, integra su experiencia en ingeniería y tecnologías de vanguardia para potenciar nuestra eficiencia operativa. Su liderazgo en Computer Vision e IA, sumado a su enfoque en gobernanza ética, lo convierte en una pieza clave para asegurar que nuestra innovación técnica sea tan robusta como responsable.",
+    linkedin: "https://www.linkedin.com/in/julio-hofflinger/?locale=es",
+  },
+  {
     name: "Pablo Troncoso",
     role: "Director Comercial",
     image: "/team/Pablo_Troncoso.jpg",
     description:
       "Socio y estratega comercial con un amplio recorrido en la alta dirección y la innovación. Pablo aporta una visión empresarial estratégica a la expansión de JhedAI, aplicando su vasta experiencia en modelos de negocio y transformación digital para llevar nuestra IA a sectores clave. Su enfoque combina la eficiencia operativa con una mirada experta, orientada a crear soluciones que transforman la forma en que las industrias aprenden, trabajan y generan valor.",
+    linkedin: "",
+  },
+  {
+    name: "Héctor Vásquez",
+    role: "Líder de Desarrollo",
+    image: "/team/Hector_Vasquez.png?v=8",
+    description:
+      "Como Líder de Desarrollo, es el arquitecto detrás de nuestras automatizaciones y el despliegue de sistemas de IA. Con una curiosidad natural que lo mantiene en constante aprendizaje, se especializa en entrenamiento de modelos de computer vision y automatizaciones de procesos.",
     linkedin: "",
   },
 ];

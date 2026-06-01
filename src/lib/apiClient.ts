@@ -1,11 +1,10 @@
 /**
  * API Client for JhedAI Contact Form
- * Contacts go to jhedai-api worker (has Resend integration)
  */
 
 const CONTACT_API_URL =
   import.meta.env.VITE_CONTACT_API_URL ||
-  "https://jhedai-api.edison-985.workers.dev";
+  "https://admin-jhedai.edison-985.workers.dev";
 
 export interface ContactFormData {
   nombre: string;

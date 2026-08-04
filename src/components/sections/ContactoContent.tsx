@@ -55,6 +55,13 @@ const ContactoContent = () => {
 
       if (response.success) {
         setSubmitted(true);
+        // Google Ads conversion — Envío de formulario para clientes potenciales
+        const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+        w.gtag?.("event", "conversion", {
+          send_to: "AW-18147429663/sYieCKDzsakcEJ-ar81D",
+          value: 1.0,
+          currency: "CLP",
+        });
       } else {
         setError(
           response.error ||

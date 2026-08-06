@@ -1,0 +1,130 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import AssessmentWizard from "../components/assessment/AssessmentWizard";
+---
+
+<SiteLayout
+  title="Assessment de Madurez IA | JHEDAI"
+  description="Evalúa en qué etapa de adopción de Inteligencia Artificial se encuentra tu empresa. Recibe un reporte ejecutivo con tu nivel de madurez, benchmarks por sector y recomendaciones accionables."
+  canonical="https://jhedai.com/assessment"
+>
+  <!-- ZONA 1: Introducción -->
+  <section class="py-24 bg-white">
+    <div class="container">
+
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#003865]/5 border border-[#003865]/15 text-[14px] font-bold text-[#003865] mb-8">
+        <div class="w-2 h-2 rounded-full bg-[#00A9E0] animate-pulse"></div>
+        Assessment Gratuito · ~10 minutos
+      </div>
+
+      <!-- Título -->
+      <h1 class="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight max-w-3xl">
+        Diagnóstico de Madurez de IA
+      </h1>
+
+      <!-- Descripción -->
+      <p class="text-gray-500 text-lg max-w-2xl mb-12 leading-relaxed">
+        Evalúa en qué etapa de adopción de Inteligencia Artificial se encuentra tu empresa
+        y descubre qué tan cerca estás de lograr ventajas competitivas reales.
+        Recibirás un reporte ejecutivo con tu nivel de madurez, benchmarks por sector
+        y recomendaciones accionables para los próximos 12 meses.
+      </p>
+
+      <!-- 3 Bullets -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+
+        <!-- Bullet 1 -->
+        <div class="flex items-start gap-4 p-6 rounded-2xl bg-[#003865]/5 border border-[#003865]/10">
+          <div class="w-10 h-10 rounded-xl bg-[#003865] flex items-center justify-center flex-shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900 mb-1">Estrategia y Datos</p>
+            <p class="text-sm text-gray-500">Mide qué tan integrada está la IA en tus decisiones de negocio</p>
+          </div>
+        </div>
+
+        <!-- Bullet 2 -->
+        <div class="flex items-start gap-4 p-6 rounded-2xl bg-[#003865]/5 border border-[#003865]/10">
+          <div class="w-10 h-10 rounded-xl bg-[#003865] flex items-center justify-center flex-shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900 mb-1">Adopción y Talento</p>
+            <p class="text-sm text-gray-500">Evalúa el nivel de uso real y las capacidades de tu equipo</p>
+          </div>
+        </div>
+
+        <!-- Bullet 3 -->
+        <div class="flex items-start gap-4 p-6 rounded-2xl bg-[#003865]/5 border border-[#003865]/10">
+          <div class="w-10 h-10 rounded-xl bg-[#003865] flex items-center justify-center flex-shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900 mb-1">Reporte Ejecutivo</p>
+            <p class="text-sm text-gray-500">Diagnóstico con nivel de madurez, benchmarks sectoriales y plan de acción</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CTA -->
+      <a
+        href="#assessment-embed"
+        id="start-assessment-btn"
+        class="group inline-flex items-center gap-2 bg-[#003865] text-white px-8 py-4 rounded-xl font-bold text-[16px] hover:bg-[#003865]/90 transition-all shadow-xl shadow-[#003865]/20 cursor-pointer"
+      >
+        Iniciar Assessment
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="group-hover:translate-x-1 transition-transform"
+        >
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ZONA 2: Wizard nativo (isla React) -->
+  <section id="assessment-embed" class="bg-white pb-24">
+    <div class="container">
+      <AssessmentWizard client:idle />
+    </div>
+  </section>
+
+  <script is:inline>
+    document
+      .getElementById('start-assessment-btn')
+      ?.addEventListener('click', function (e) {
+        e.preventDefault();
+        document
+          .getElementById('assessment-embed')
+          ?.scrollIntoView({ behavior: 'smooth' });
+      });
+  </script>
+</SiteLayout>

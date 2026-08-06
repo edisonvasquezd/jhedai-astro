@@ -1,0 +1,1050 @@
+/* =====================================================
+   JHEDAI Assessment Module - Unified Styles
+   ===================================================== */
+
+/* CSS Variables for consistent theming */
+:root {
+  --assessment-primary: #2563eb;
+  --assessment-primary-dark: #1d4ed8;
+  --assessment-primary-light: #eff6ff;
+  --assessment-secondary: #059669;
+  --assessment-secondary-light: #ecfdf5;
+  --assessment-bg: #f8fafc;
+  --assessment-card-bg: #ffffff;
+  --assessment-border: #e2e8f0;
+  --assessment-text: #1e293b;
+  --assessment-text-muted: #64748b;
+  --assessment-shadow:
+    0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --assessment-shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --assessment-radius: 12px;
+  --assessment-radius-lg: 16px;
+}
+
+/* =====================================================
+   Layout Components
+   ===================================================== */
+
+.assessment-container {
+  min-height: 100vh;
+  background: var(--assessment-bg);
+  color: var(--assessment-text);
+  display: flex;
+  flex-direction: column;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+.assessment-header {
+  background: var(--assessment-card-bg);
+  border-bottom: 1px solid var(--assessment-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.assessment-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assessment-header-logo {
+  height: 48px;
+  width: auto;
+}
+
+.assessment-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.assessment-main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  width: 100%;
+}
+
+.assessment-footer {
+  background: #1e293b;
+  color: #94a3b8;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+/* =====================================================
+   Page Header / Title Bar
+   ===================================================== */
+
+.assessment-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.assessment-page-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.assessment-page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--assessment-text);
+  margin: 0;
+}
+
+.assessment-page-subtitle {
+  font-size: 0.875rem;
+  color: var(--assessment-text-muted);
+  margin: 0;
+}
+
+/* =====================================================
+   Buttons
+   ===================================================== */
+
+.assessment-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  text-decoration: none;
+}
+
+.assessment-btn-primary {
+  background: var(--assessment-primary);
+  color: white;
+}
+
+.assessment-btn-primary:hover {
+  background: var(--assessment-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--assessment-shadow);
+}
+
+.assessment-btn-secondary {
+  background: white;
+  color: var(--assessment-text);
+  border: 1px solid var(--assessment-border);
+}
+
+.assessment-btn-secondary:hover {
+  background: var(--assessment-bg);
+  border-color: #cbd5e1;
+}
+
+.assessment-btn-success {
+  background: var(--assessment-secondary);
+  color: white;
+}
+
+.assessment-btn-success:hover {
+  background: #047857;
+}
+
+.assessment-btn-ghost {
+  background: transparent;
+  color: var(--assessment-text-muted);
+}
+
+.assessment-btn-ghost:hover {
+  background: var(--assessment-bg);
+  color: var(--assessment-text);
+}
+
+.assessment-btn-icon {
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+/* =====================================================
+   Cards
+   ===================================================== */
+
+.assessment-card {
+  background: var(--assessment-card-bg);
+  border-radius: var(--assessment-radius);
+  border: 1px solid var(--assessment-border);
+  box-shadow: var(--assessment-shadow);
+  overflow: hidden;
+}
+
+.assessment-card-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--assessment-border);
+  background: var(--assessment-bg);
+}
+
+.assessment-card-body {
+  padding: 1.5rem;
+}
+
+.assessment-card-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--assessment-border);
+  background: var(--assessment-bg);
+}
+
+/* =====================================================
+   Table Styles
+   ===================================================== */
+
+.assessment-table-container {
+  overflow-x: auto;
+}
+
+.assessment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.assessment-table th {
+  text-align: left;
+  padding: 0.875rem 1rem;
+  font-weight: 600;
+  color: var(--assessment-text-muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  background: var(--assessment-bg);
+  border-bottom: 2px solid var(--assessment-border);
+}
+
+.assessment-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--assessment-border);
+  color: var(--assessment-text);
+}
+
+.assessment-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.assessment-table tbody tr:hover {
+  background: var(--assessment-bg);
+}
+
+.assessment-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =====================================================
+   Badge / Tag Styles
+   ===================================================== */
+
+.assessment-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.assessment-badge-blue {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.assessment-badge-green {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.assessment-badge-yellow {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.assessment-badge-red {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.assessment-badge-purple {
+  background: #f3e8ff;
+  color: #7c3aed;
+}
+
+/* =====================================================
+   Action Buttons (Table Actions)
+   ===================================================== */
+
+.assessment-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.assessment-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.assessment-action-btn-view {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.assessment-action-btn-view:hover {
+  background: #bbf7d0;
+}
+
+.assessment-action-btn-edit {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.assessment-action-btn-edit:hover {
+  background: #bfdbfe;
+}
+
+.assessment-action-btn-download {
+  background: #f3e8ff;
+  color: #7c3aed;
+}
+
+.assessment-action-btn-download:hover {
+  background: #e9d5ff;
+}
+
+/* =====================================================
+   Stepper Component
+   ===================================================== */
+
+.assessment-stepper {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding: 0 1rem;
+}
+
+.assessment-stepper::before {
+  content: "";
+  position: absolute;
+  top: 1.25rem;
+  left: 2.5rem;
+  right: 2.5rem;
+  height: 3px;
+  background: var(--assessment-border);
+  z-index: 0;
+}
+
+.assessment-stepper-progress {
+  position: absolute;
+  top: 1.25rem;
+  left: 2.5rem;
+  height: 3px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed, #059669);
+  z-index: 1;
+  transition: width 0.4s ease;
+  border-radius: 2px;
+}
+
+.assessment-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.assessment-step-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  border: 3px solid transparent;
+}
+
+.assessment-step-circle.inactive {
+  background: white;
+  color: var(--assessment-text-muted);
+  border-color: var(--assessment-border);
+}
+
+.assessment-step-circle.active {
+  background: var(--assessment-primary);
+  color: white;
+  transform: scale(1.15);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
+.assessment-step-circle.completed {
+  background: var(--assessment-secondary);
+  color: white;
+}
+
+.assessment-step-label {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--assessment-text-muted);
+  text-align: center;
+  max-width: 80px;
+}
+
+.assessment-step.active .assessment-step-label {
+  color: var(--assessment-text);
+  font-weight: 600;
+}
+
+/* =====================================================
+   Form / Question Styles
+   ===================================================== */
+
+.assessment-question-card {
+  background: var(--assessment-card-bg);
+  border-radius: var(--assessment-radius);
+  border: 1px solid var(--assessment-border);
+  box-shadow: var(--assessment-shadow);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.assessment-question-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--assessment-text);
+  margin-bottom: 0.5rem;
+}
+
+.assessment-question-description {
+  font-size: 0.875rem;
+  color: var(--assessment-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.assessment-question-item {
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.assessment-question-item.error {
+  background: #fef2f2;
+  border: 2px solid #fecaca;
+}
+
+.assessment-question-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--assessment-text);
+  margin-bottom: 1rem;
+}
+
+.assessment-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--assessment-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.assessment-input:focus {
+  outline: none;
+  border-color: var(--assessment-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.assessment-input.error {
+  border-color: #f87171;
+}
+
+/* =====================================================
+   Option Cards (Radio/Checkbox)
+   ===================================================== */
+
+.assessment-option {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--assessment-border);
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.assessment-option:hover {
+  border-color: #cbd5e1;
+  background: var(--assessment-bg);
+}
+
+.assessment-option.selected {
+  border-color: var(--assessment-secondary);
+  background: var(--assessment-secondary-light);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+}
+
+.assessment-option-indicator {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--assessment-border);
+  margin-right: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.assessment-option.selected .assessment-option-indicator {
+  background: var(--assessment-secondary);
+  border-color: var(--assessment-secondary);
+}
+
+.assessment-option-indicator-checkbox {
+  border-radius: 6px;
+}
+
+.assessment-option-text {
+  font-size: 0.9375rem;
+  color: var(--assessment-text);
+  line-height: 1.5;
+}
+
+.assessment-option.selected .assessment-option-text {
+  font-weight: 600;
+}
+
+/* =====================================================
+   Navigation Bar (Bottom Sticky)
+   ===================================================== */
+
+.assessment-nav-bar {
+  /* sticky (not fixed): pins to the viewport bottom only while the wizard
+     section is in view, so it never overlays the site footer when the
+     wizard is embedded in the landing page */
+  position: sticky;
+  bottom: 0;
+  background: white;
+  border-top: 1px solid var(--assessment-border);
+  box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.05);
+  z-index: 50;
+}
+
+.assessment-nav-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assessment-nav-progress {
+  font-size: 0.875rem;
+  color: var(--assessment-text-muted);
+}
+
+.assessment-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* =====================================================
+   Results / Confirmation Page
+   ===================================================== */
+
+.assessment-result-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.assessment-result-card {
+  background: white;
+  border-radius: var(--assessment-radius-lg);
+  border: 1px solid var(--assessment-border);
+  box-shadow: var(--assessment-shadow-lg);
+  padding: 3rem 2rem;
+}
+
+.assessment-result-icon {
+  width: 5rem;
+  height: 5rem;
+  background: #dcfce7;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.assessment-result-icon svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #16a34a;
+}
+
+.assessment-result-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--assessment-text);
+  margin-bottom: 0.75rem;
+}
+
+.assessment-result-message {
+  font-size: 1rem;
+  color: var(--assessment-text-muted);
+  line-height: 1.6;
+}
+
+/* =====================================================
+   Loading States
+   ===================================================== */
+
+.assessment-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
+.assessment-spinner {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid var(--assessment-border);
+  border-top-color: var(--assessment-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.assessment-loading-text {
+  margin-top: 1rem;
+  color: var(--assessment-text-muted);
+  font-size: 0.875rem;
+}
+
+/* =====================================================
+   Empty State
+   ===================================================== */
+
+.assessment-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: var(--assessment-radius);
+  border: 1px solid var(--assessment-border);
+}
+
+.assessment-empty-icon {
+  width: 4rem;
+  height: 4rem;
+  background: var(--assessment-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.assessment-empty-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--assessment-text);
+  margin-bottom: 0.5rem;
+}
+
+.assessment-empty-message {
+  color: var(--assessment-text-muted);
+  font-size: 0.875rem;
+}
+
+/* =====================================================
+   Alert / Message Boxes
+   ===================================================== */
+
+.assessment-alert {
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border-left: 4px solid;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.assessment-alert-error {
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.assessment-alert-warning {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.assessment-alert-success {
+  background: #f0fdf4;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.assessment-alert-info {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1e40af;
+}
+
+/* =====================================================
+   Responsive Adjustments
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .assessment-main {
+    padding: 1.5rem 1rem;
+  }
+
+  .assessment-page-title {
+    font-size: 1.375rem;
+  }
+
+  .assessment-stepper {
+    padding: 0 0.5rem;
+  }
+
+  .assessment-step-label {
+    display: none;
+  }
+
+  .assessment-question-card {
+    padding: 1.5rem;
+  }
+
+  .assessment-table th,
+  .assessment-table td {
+    padding: 0.75rem;
+  }
+
+  .assessment-result-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .assessment-header-content {
+    padding: 0.5rem 1rem;
+  }
+
+  .assessment-header-logo {
+    height: 36px;
+  }
+
+  .assessment-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* =====================================================
+   Assessment Answers Page (Internal Report)
+   ===================================================== */
+
+.aa-page {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.aa-print-header {
+  display: none;
+}
+
+@media print {
+  .aa-print-header {
+    display: block;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e5e7eb;
+  }
+}
+
+.aa-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem 3rem;
+}
+
+.aa-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.aa-summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.aa-summary-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+}
+
+.aa-summary-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.aa-summary-badge {
+  display: inline-block;
+  padding: 0.2rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.aa-summary-bar-container {
+  flex: 1;
+  min-width: 120px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.aa-summary-bar-track {
+  flex: 1;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.aa-summary-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.aa-section {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+
+.aa-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.aa-section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.aa-section-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.aa-section-score {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.aa-section-body {
+  padding: 0.5rem 1.5rem 1rem;
+}
+
+.aa-question {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.aa-question:last-child {
+  border-bottom: none;
+}
+
+.aa-question-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.aa-question-number {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #2563eb;
+  flex-shrink: 0;
+  min-width: 28px;
+}
+
+.aa-question-text {
+  font-size: 0.875rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.aa-question-type-badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.65rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.aa-answer {
+  padding-left: 28px;
+  margin-bottom: 0.25rem;
+}
+
+.aa-answer-item {
+  display: flex;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.aa-score-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 28px;
+  margin-top: 0.25rem;
+}
+
+.aa-score-bar-track {
+  flex: 1;
+  max-width: 200px;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.aa-score-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.aa-score-value {
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 45px;
+}
+
+.aa-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  padding: 1.5rem 0;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .aa-content {
+    padding: 1rem;
+  }
+
+  .aa-summary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .aa-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .aa-score-row {
+    padding-left: 0;
+  }
+
+  .aa-answer {
+    padding-left: 0;
+  }
+}

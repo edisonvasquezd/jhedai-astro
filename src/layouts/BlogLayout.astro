@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
+import GoogleAdsTag from "../components/GoogleAdsTag.astro";
 
 interface Props {
   title: string;
@@ -47,6 +48,8 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+
+    <GoogleAdsTag />
 
     <title>{title}</title>
     <meta name="description" content={description} />

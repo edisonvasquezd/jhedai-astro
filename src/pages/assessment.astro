@@ -1,6 +1,6 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import AssessmentWizard from "../components/assessment/AssessmentWizard";
+import AssessmentOverlay from "../components/assessment/AssessmentOverlay";
 ---
 
 <SiteLayout
@@ -86,7 +86,7 @@ import AssessmentWizard from "../components/assessment/AssessmentWizard";
 
       <!-- CTA -->
       <a
-        href="#assessment-embed"
+        href="#"
         id="start-assessment-btn"
         class="group inline-flex items-center gap-2 bg-[#003865] text-white px-8 py-4 rounded-xl font-bold text-[16px] hover:bg-[#003865]/90 transition-all shadow-xl shadow-[#003865]/20 cursor-pointer"
       >
@@ -110,21 +110,6 @@ import AssessmentWizard from "../components/assessment/AssessmentWizard";
     </div>
   </section>
 
-  <!-- ZONA 2: Wizard nativo (isla React) -->
-  <section id="assessment-embed" class="bg-white pb-24">
-    <div class="container">
-      <AssessmentWizard client:idle />
-    </div>
-  </section>
-
-  <script is:inline>
-    document
-      .getElementById('start-assessment-btn')
-      ?.addEventListener('click', function (e) {
-        e.preventDefault();
-        document
-          .getElementById('assessment-embed')
-          ?.scrollIntoView({ behavior: 'smooth' });
-      });
-  </script>
+  <!-- Overlay pantalla completa: se abre con el botón "Iniciar Assessment" -->
+  <AssessmentOverlay client:idle />
 </SiteLayout>

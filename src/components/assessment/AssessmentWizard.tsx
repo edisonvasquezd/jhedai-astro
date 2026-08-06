@@ -38,6 +38,53 @@ const STEPS: readonly AssessmentStep[] = [
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const STORAGE_KEY = "jhedai-assessment-progress";
+const STORAGE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
+
+interface StoredProgress {
+  answers: AnswersMap;
+  currentStep: number;
+  ts: number;
+}
+
+function loadProgress(): StoredProgress | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as StoredProgress;
+    if (!parsed || typeof parsed.ts !== "number") return null;
+    if (Date.now() - parsed.ts > STORAGE_TTL_MS) {
+      localStorage.removeItem(STORAGE_KEY);
+      return null;
+    }
+    // Never restore into the results step — cap at the last question step
+    const maxStep = STEPS.length - 2;
+    const step = Math.min(Math.max(parsed.currentStep ?? 0, 0), maxStep);
+    return { answers: parsed.answers ?? {}, currentStep: step, ts: parsed.ts };
+  } catch {
+    return null;
+  }
+}
+
+function saveProgress(answers: AnswersMap, currentStep: number): void {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({ answers, currentStep, ts: Date.now() }),
+    );
+  } catch {
+    /* storage full/unavailable — persistence is best-effort */
+  }
+}
+
+function clearProgress(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
 async function saveAssessment(
   answers: AnswersMap,
   calculatedResults: AssessmentResults,
@@ -140,12 +187,29 @@ function AssessmentWizard(): JSX.Element {
     containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // Restore saved progress on mount (after hydration, so no SSR mismatch)
+  useEffect(() => {
+    const stored = loadProgress();
+    if (stored) {
+      setAnswers(stored.answers);
+      setCurrentStep(stored.currentStep);
+    }
+  }, []);
+
+  // Persist progress as the user answers (cleared once results are reached)
+  useEffect(() => {
+    if (isResultsStep) return;
+    if (currentStep === 0 && Object.keys(answers).length === 0) return;
+    saveProgress(answers, currentStep);
+  }, [answers, currentStep, isResultsStep]);
+
   // Calculate results and save to backend when reaching the last step
   useEffect(() => {
     if (!isResultsStep || results) return;
     const calculatedResults = calculateResults(answers, QUESTIONS_DATA, BENCHMARKS);
     setResults(calculatedResults);
     void saveAssessment(answers, calculatedResults);
+    clearProgress();
   }, [isResultsStep, results, answers]);
 
   const currentStepData = STEPS[currentStep];

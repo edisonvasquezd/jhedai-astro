@@ -84,11 +84,18 @@ function AssessmentOverlay(): JSX.Element | null {
       tabIndex={-1}
     >
       <header className="assessment-overlay__header">
-        <img
-          src="/logo-jhedai.png"
-          alt="JHEDAI"
-          className="assessment-overlay__logo"
-        />
+        <div className="assessment-overlay__logo-wrap">
+          <picture>
+            <source srcSet="/logo-jhedai.webp" type="image/webp" />
+            <img
+              src="/logo-jhedai.png"
+              alt="JHEDAI"
+              className="assessment-overlay__logo"
+              width={256}
+              height={256}
+            />
+          </picture>
+        </div>
         <button
           type="button"
           className="assessment-overlay__close"

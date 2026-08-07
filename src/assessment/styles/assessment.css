@@ -576,8 +576,18 @@
   flex-shrink: 0;
 }
 
+/* The logo artwork sits inside a square canvas with large transparent
+   padding — render it oversized inside a clipped wrapper so the visible
+   mark fills the bar (same trick as the site navbar). */
+.assessment-overlay__logo-wrap {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
 .assessment-overlay__logo {
-  height: 44px;
+  height: 130px;
   width: auto;
 }
 

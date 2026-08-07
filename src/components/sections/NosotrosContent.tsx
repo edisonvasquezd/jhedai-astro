@@ -102,9 +102,9 @@ const milestones: Milestone[] = [
   },
   {
     date: "Junio 2025",
-    title: "Fondo CORFO - CSIAA",
+    title: "Fondo CORFO - Talasa",
     description:
-      "Adjudicación de fondo CORFO para el Centro de Supercómputo e IA Aplicada (CSIAA), con JhedAI como empresa asociada fundadora en Viña del Mar.",
+      "Adjudicación de fondo CORFO para Talasa, Centro de Supercómputo e IA Aplicada, con JhedAI como empresa asociada en Viña del Mar.",
     icon: <Server size={20} />,
     category: "Infraestructura",
     position: "right",
@@ -129,9 +129,9 @@ const milestones: Milestone[] = [
   },
   {
     date: "Noviembre 2025",
-    title: "MOU entre AMD y CSIAA",
+    title: "MOU entre AMD y Talasa",
     description:
-      "Firma de Memorándum de Entendimiento entre AMD y CSIAA, abriendo colaboración en supercómputo IA como empresa asociada.",
+      "Firma de Memorándum de Entendimiento entre AMD y Talasa, abriendo colaboración en supercómputo IA como empresa asociada.",
     icon: <Handshake size={20} />,
     category: "Alianza",
     position: "left",

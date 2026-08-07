@@ -14,15 +14,15 @@ const pillars = [
   {
     icon: <Server size={28} />,
     tag: "INFRAESTRUCTURA",
-    title: "CSIAA — Centro de Supercómputo e IA Aplicada",
+    title: "Talasa — Centro de Supercómputo e IA Aplicada",
     description:
-      "Centro de supercómputo en Viña del Mar, financiado por CORFO, con JhedAI como empresa asociada fundadora. Infraestructura de clase mundial para entrenar modelos de IA a escala industrial.",
+      "Centro de supercómputo en Viña del Mar, financiado por CORFO, con JhedAI como empresa asociada. Infraestructura de clase mundial para la implementación de IA a escala industrial.",
     bullets: [
       "Fondo CORFO adjudicado (Junio 2025)",
       "MOU con AMD para colaboración en supercómputo (Noviembre 2025)",
       "Sede en Viña del Mar, Región de Valparaíso",
     ],
-    badge: "Empresa Asociada Fundadora",
+    badge: "Empresa Asociada",
     gradient: "from-blue-500 to-cyan-500",
   },
   {
@@ -97,7 +97,7 @@ const allianceCategories = [
     icon: <Landmark size={20} />,
     title: "Corporaciones y Gremios",
     partners: [
-      "CSIAA",
+      "Talasa",
       "CRTIC",
       "CChIA",
       "EIVA",

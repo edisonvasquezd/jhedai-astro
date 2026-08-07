@@ -58,7 +58,7 @@ const partners: { name: string; logo: string; size?: "lg" | "xl" }[] = [
   },
   { name: "EIVA", logo: "/logos-partners/eiva.webp", size: "lg" },
   { name: "CChIA", logo: "/logos-partners/cchia.webp", size: "xl" },
-  { name: "CSIAA", logo: "/logos-partners/csiaa.webp", size: "lg" },
+  { name: "Talasa", logo: "/logos-partners/talasa.svg", size: "lg" },
   { name: "Vehice", logo: "/logos-partners/vehice.webp" },
   { name: "Latam-GPT", logo: "/logos-partners/latamgpt_logo.webp" },
   { name: "Min Ciencia", logo: "/logos-partners/MIN-CIENCIA.webp", size: "lg" },

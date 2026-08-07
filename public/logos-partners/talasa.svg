@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" role="img" aria-label="Talasa">
+  <!-- Placeholder wordmark for Talasa (Centro de Supercómputo e IA Aplicada)
+       until the official logo is available -->
+  <g fill="none">
+    <!-- Wave motif -->
+    <path d="M22 34 C30 26, 42 26, 50 34 S70 42, 78 34"
+          stroke="#00A9E0" stroke-width="6" stroke-linecap="round"/>
+    <path d="M22 50 C30 42, 42 42, 50 50 S70 58, 78 50"
+          stroke="#003865" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <text x="96" y="57"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="40" font-weight="700"
+        fill="#003865" letter-spacing="1">Talasa</text>
+</svg>

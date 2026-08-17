@@ -22,3 +22,12 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Local analysis artifacts (Lighthouse runs, critical-css experiments)
+lh-*.json
+lighthouse-*.json
+/critical*.css
+.serena/
+.wrangler/
+# Original heavy assets kept only locally
+public/logos-partners-original/

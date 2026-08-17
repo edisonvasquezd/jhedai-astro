@@ -185,6 +185,11 @@ export function getImageUrl(
   variant: ImageVariant,
 ): string | undefined {
   if (!url) return undefined;
+  // Variant swapping only applies to Cloudflare Images URLs, whose last
+  // path segment IS the variant (imagedelivery.net/<hash>/<id>/<variant>).
+  // Posts published from the admin store plain R2 URLs (…/blog/<file>.png)
+  // — swapping their last segment breaks the image, so serve them as-is.
+  if (!url.includes("imagedelivery.net")) return url;
   // Replace last path segment (current variant) with the requested variant
   return url.replace(/\/[^/]+$/, `/${variant}`);
 }

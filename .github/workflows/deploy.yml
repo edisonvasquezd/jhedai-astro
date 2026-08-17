@@ -1,0 +1,45 @@
+name: Deploy jhedai.com
+
+# Three triggers:
+#  - push a main: todo cambio commiteado se despliega solo (git = producción, siempre)
+#  - repository_dispatch "blog-published": el worker jhedai-api lo dispara al
+#    publicar/editar/borrar un artículo desde el admin → el sitio se
+#    reconstruye con el post nuevo sin intervención manual
+#  - workflow_dispatch: botón manual en GitHub → Actions por si se necesita
+on:
+  push:
+    branches: [main]
+  repository_dispatch:
+    types: [blog-published]
+  workflow_dispatch:
+
+# Un deploy a la vez; si llegan varios seguidos, solo corre el último
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site (fetches blog posts from jhedai-api at build time)
+        run: npm run build
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy

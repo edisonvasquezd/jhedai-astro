@@ -55,6 +55,9 @@ const ContactoContent = () => {
 
       if (response.success) {
         setSubmitted(true);
+        // Google Tag Manager — evento para activadores de "Evento personalizado"
+        const dl = window as unknown as { dataLayer?: Record<string, unknown>[] };
+        (dl.dataLayer = dl.dataLayer || []).push({ event: "form_submit_contacto" });
         // Google Ads conversion — Envío de formulario para clientes potenciales
         const w = window as unknown as { gtag?: (...args: unknown[]) => void };
         w.gtag?.("event", "conversion", {

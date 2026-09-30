@@ -3,6 +3,8 @@ import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import GoogleAdsTag from "../components/GoogleAdsTag.astro";
+import GoogleTagManager from "../components/GoogleTagManager.astro";
+import GoogleTagManagerNoscript from "../components/GoogleTagManagerNoscript.astro";
 
 interface Props {
   title: string;
@@ -32,6 +34,7 @@ const {
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <GoogleTagManager />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
 
@@ -88,6 +91,7 @@ const {
     <slot name="head" />
   </head>
   <body class="min-h-screen bg-white">
+    <GoogleTagManagerNoscript />
     <Navbar />
     <main>
       <slot />
